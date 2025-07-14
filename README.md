@@ -31,7 +31,7 @@ ROS2:           humble
 
 `ros2 run viola_controller controller`
 
-## 启动moveit2
+### 启动moveit2
 
 `ros2 launch viola_configure actual_robot_demo.launch.py `
 
