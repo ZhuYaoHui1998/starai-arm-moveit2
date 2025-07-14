@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="viola_description">
+  <!-- 添加虚拟根链接 -->
+  <link name="world"/>
+
+  <!-- 添加固定关节 -->
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="1.0267E-07 -0.046722 -0.026927"
+        rpy="0 0 0" />
+      <mass
+        value="0.34245" />
+      <inertia
+        ixx="0.00079997"
+        ixy="-1.8453E-10"
+        ixz="6.6766E-10"
+        iyy="0.00096879"
+        iyz="-2.2236E-05"
+        izz="0.00028538" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="link1">
+    <inertial>
+      <origin
+        xyz="0.00945929848513669 -1.3495679371496E-05 0.0125260726596105"
+        rpy="0 0 0" />
+      <mass
+        value="0.0144992701953334" />
+      <inertia
+        ixx="2.20206728759526E-06"
+        ixy="-3.39221832582901E-09"
+        ixz="-2.3292146278621E-07"
+        iyy="3.15721267641348E-06"
+        iyz="-1.36887296772761E-11"
+        izz="3.90207130365304E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint1"
+    type="revolute">
+    <origin
+      xyz="0 -0.00968 0.0037502"
+      rpy="0 0 -1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="link1" />
+    <axis
+      xyz="7.6046E-05 0 -1" />
+    <limit
+      lower="-2.27"
+      upper="2.27"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link2">
+    <inertial>
+      <origin
+        xyz="0.114964625129059 -0.00467704143791725 4.1629044596727E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.0987772903768165" />
+      <inertia
+        ixx="2.1184876229622E-05"
+        ixy="5.53852374713764E-06"
+        ixz="-2.84045610394427E-07"
+        iyy="0.000167624486496214"
+        iyz="1.15621876795968E-07"
+        izz="0.00016002189146611" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint2"
+    type="revolute">
+    <origin
+      xyz="0.00081639 0 0.017894"
+      rpy="1.5708 -1.5708 0" />
+    <parent
+      link="link1" />
+    <child
+      link="link2" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link3">
+    <inertial>
+      <origin
+        xyz="0.0307420220015525 -0.00802251396822781 5.97955914480505E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.0176734436095054" />
+      <inertia
+        ixx="4.78311450026526E-06"
+        ixy="7.02946410418113E-07"
+        ixz="9.46781923921618E-15"
+        iyy="4.57059651169199E-06"
+        iyz="-4.73223327429523E-13"
+        izz="4.83080271569651E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint3"
+    type="revolute">
+    <origin
+      xyz="0.1622 -0.042677 0"
+      rpy="0 0 -1.5708" />
+    <parent
+      link="link2" />
+    <child
+      link="link3" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link4">
+    <inertial>
+      <origin
+        xyz="-3.73429810664183E-05 -3.34353484130833E-05 -0.0394023804743517"
+        rpy="0 0 0" />
+      <mass
+        value="0.0317772689370715" />
+      <inertia
+        ixx="5.52051400613132E-06"
+        ixy="6.70142362354289E-12"
+        ixz="-8.04404621260028E-09"
+        iyy="4.24695643927686E-06"
+        iyz="-3.39264989650476E-09"
+        izz="5.04711704401761E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint4"
+    type="revolute">
+    <origin
+      xyz="0.13611 -0.001325 0"
+      rpy="1.5708 0 1.5708" />
+    <parent
+      link="link3" />
+    <child
+      link="link4" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-2.27"
+      upper="2.27"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link5">
+    <inertial>
+      <origin
+        xyz="-0.00907471212229993 -0.0353443496912795 -0.000249999386878842"
+        rpy="0 0 0" />
+      <mass
+        value="0.0153420053398658" />
+      <inertia
+        ixx="4.51552994788011E-06"
+        ixy="-6.95561719240876E-07"
+        ixz="7.12586884715848E-14"
+        iyy="4.67720718357925E-06"
+        iyz="2.88782604962509E-14"
+        izz="4.69712760711317E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint5"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="-1.5708 0 0" />
+    <parent
+      link="link4" />
+    <child
+      link="link5" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link6">
+    <inertial>
+      <origin
+        xyz="0.00459726147096562 0.0631536269537692 5.50693461649458E-07"
+        rpy="0 0 0" />
+      <mass
+        value="0.0604810188118188" />
+      <inertia
+        ixx="8.18878909990245E-05"
+        ixy="3.75608568724252E-06"
+        ixz="5.02678122975633E-08"
+        iyy="7.08701307075363E-05"
+        iyz="-5.39035011630242E-08"
+        izz="2.75137947159543E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link6.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint6"
+    type="revolute">
+    <origin
+      xyz="-0.0048225 -0.17065 0"
+      rpy="3.1416 0 3.1416" />
+    <parent
+      link="link5" />
+    <child
+      link="link6" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-2.27"
+      upper="2.27"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link7_left">
+    <inertial>
+      <origin
+        xyz="-2.75111773632153E-05 -0.0166499696743121 0.040371259206279"
+        rpy="0 0 0" />
+      <mass
+        value="0.0093640759491376" />
+      <inertia
+        ixx="1.42325173509405E-06"
+        ixy="3.07744473263422E-11"
+        ixz="1.54466899293368E-12"
+        iyy="6.7892690386922E-07"
+        iyz="2.04200398046579E-07"
+        izz="1.72127779881948E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link7_left.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link7_left.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint7_left"
+    type="prismatic">
+    <origin
+      xyz="0.01009 0 0"
+      rpy="0 0 3.1416" />
+    <parent
+      link="link6" />
+    <child
+      link="link7_left" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.03"
+      upper="0"
+      effort="5"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="link7_right">
+    <inertial>
+      <origin
+        xyz="-2.75111773632708E-05 -0.016649969674312 -0.0403212592062332"
+        rpy="0 0 0" />
+      <mass
+        value="0.0093640759491376" />
+      <inertia
+        ixx="1.42325173509405E-06"
+        ixy="3.07744473261495E-11"
+        ixz="-1.54466899247189E-12"
+        iyy="6.78926903869219E-07"
+        iyz="-2.0420039804658E-07"
+        izz="1.72127779881948E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link7_right.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://viola_description/meshes/link7_right.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint7_right"
+    type="prismatic">
+    <origin
+      xyz="0.0100900000000006 0 0"
+      rpy="0 0 3.14159265358979" />
+    <parent
+      link="link6" />
+    <child
+      link="link7_right" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="5"
+      velocity="3.14" />
+    <mimic joint="joint7_left" />
+  </joint>
+</robot>
