@@ -15,8 +15,24 @@ Codename:       jammy
 ROS2:           humble
 
 
+
+## 安装moveit2
+
+安装moveit2
+
+```sh
+sudo apt install ros-humble-moveit*
+```
+
+
+
 ## 使用虚拟机械臂
-`ros2 launch viola_configure demo.launch.py `
+
+```sh
+ros2 launch viola_configure demo.launch.py 
+```
+
+
 
 
 ## 使用真实的机械臂
@@ -35,4 +51,15 @@ ROS2:           humble
 
 `ros2 launch viola_configure actual_robot_demo.launch.py `
 
+
+
+
+
+## FAQ
+
+如果rivz2界面出现频闪，可以尝试以下指令。
+
+```
+export QT_AUTO_SCREEN_SCALE_FACTOR=0
+```
 
