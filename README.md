@@ -7,13 +7,13 @@
       src="src\viola_description\images\viola_and_violin.jpg"
       alt="SO-101 follower arm"
       title="SO-101 follower arm"
-      style="width: 50%;"
+      style="width: 80%;"
     />
     <img
       src="src\viola_description\images\cello.jpg"
       alt="SO-101 leader arm"
       title="SO-101 leader arm"
-      style="width: 50%;"
+      style="width: 80%;"
     />
   </div>
 </div>
