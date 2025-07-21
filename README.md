@@ -1,4 +1,5 @@
-# Starai Arm 机械臂ROS2 Moveit 使用教程/Starai Arm Manipulator - ROS2 MoveIt Guide
+# Starai Arm 机械臂ROS2 Moveit 使用教程
+# Starai Arm Manipulator - ROS2 MoveIt Guide
 
 <div align="center">
   <div style="display: flex; gap: 1rem; justify-content: center; align-items: center;" >
@@ -34,7 +35,8 @@ ROS2:           humble
 ### 安装ROS2 Humble/Install ROS2 Humble
 
 (ROS2 Humble 安装指南)[https://wiki.seeedstudio.com/cn/install_ros2_humble/]
-(ROS2 Humble Installation)(https://wiki.seeedstudio.com/install_ros2_humble/)
+
+(ROS2 Humble Installation)[https://wiki.seeedstudio.com/install_ros2_humble/]
 
 
 ### 安装moveit2
