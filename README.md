@@ -102,6 +102,10 @@ ros2 launch viola_configure actual_robot_demo.launch.py
 
 
 
+https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
+
+
+
 
 ## FAQ
 
