@@ -102,7 +102,7 @@ class uservo_ex:
                 success = True  # 如果成功初始化，则设置成功标志
             except serial.SerialException as e:
                 print(f"串口初始化失败: {e}")
-                time.sleep(0.1)  # 暂停 1 秒后重试
+                raise
         try:
             self.uservo = uservo.UartServoManager(self.uart)
         except Exception as e:

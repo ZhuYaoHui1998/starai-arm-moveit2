@@ -41,16 +41,21 @@ ros2 launch viola_configure demo.launch.py
 
 手臂会移动到零位
 
-`ros2 run robo_driver driver`
+```sh
+ros2 run robo_driver driver
+```
 
 ### 开启控制器节点
 
-`ros2 run viola_controller controller`
+```sh
+ros2 run viola_controller controller
+```
 
 ### 启动moveit2
 
-`ros2 launch viola_configure actual_robot_demo.launch.py `
-
+```sh
+ros2 launch viola_configure actual_robot_demo.launch.py
+```
 
 
 
@@ -59,7 +64,7 @@ ros2 launch viola_configure demo.launch.py
 
 如果rivz2界面出现频闪，可以尝试以下指令。
 
-```
+```sh
 export QT_AUTO_SCREEN_SCALE_FACTOR=0
 ```
 
