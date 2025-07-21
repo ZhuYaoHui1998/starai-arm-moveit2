@@ -7,13 +7,13 @@
       src="src\viola_description\images\viola_and_violin.jpg"
       alt="SO-101 follower arm"
       title="SO-101 follower arm"
-      style="width: 40%;"
+      style="width: 50%;"
     />
     <img
       src="src\viola_description\images\cello.jpg"
       alt="SO-101 leader arm"
       title="SO-101 leader arm"
-      style="width: 40%;"
+      style="width: 50%;"
     />
   </div>
 </div>
@@ -99,6 +99,10 @@ ros2 run viola_controller controller
 ```bash
 ros2 launch viola_configure actual_robot_demo.launch.py
 ```
+
+
+
+https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 
 
 
