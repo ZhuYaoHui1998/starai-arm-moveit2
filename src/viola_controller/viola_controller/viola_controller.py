@@ -1,22 +1,24 @@
 import rclpy                            
-from rclpy.action import ActionServer, CancelResponse
+from rclpy.action import ActionServer, CancelResponse  # 动作服务器与取消响应 / Action server & cancel response
 from rclpy.node import Node
 import time
 from std_msgs.msg import Float32MultiArray
 # from uservo.uservo_ex import uservo_ex
-from robo_interfaces.msg import SetAngle
-from control_msgs.action import FollowJointTrajectory
-from control_msgs.action import GripperCommand
-from rclpy.callback_groups import ReentrantCallbackGroup
-from rclpy.executors import MultiThreadedExecutor
+from robo_interfaces.msg import SetAngle  # 舵机角度控制消息 / Servo angle control message
+from control_msgs.action import FollowJointTrajectory  # 机械臂轨迹动作 / Arm trajectory action
+from control_msgs.action import GripperCommand  # 夹爪控制动作 / Gripper control action
+from rclpy.callback_groups import ReentrantCallbackGroup  # 可重入回调组 / Reentrant callback group
+from rclpy.executors import MultiThreadedExecutor  # 多线程执行器 / Executor for multithread
 import math
-ROBO_ACTION_NODE = 'viola_controller_node'
-ROBO_CURRENT_ANGLE_SUBSCRIPTION = "joint_states"
-ROBO_SET_ANGLE_PUBLISHER ='set_angle_topic'
-ROBO_ARM_ACTION_SERVER = '/arm_controller/follow_joint_trajectory'
-ROBO_GIRRPER_ACTION_SERVER = '/hand_controller/gripper_cmd'
-from sensor_msgs.msg import JointState
 
+# 常量定义 / Constants
+ROBO_ACTION_NODE = 'viola_controller_node'  # 节点名称 / Node name
+ROBO_CURRENT_ANGLE_SUBSCRIPTION = "joint_states"  # 当前关节角度话题 / Current joint states topic
+ROBO_SET_ANGLE_PUBLISHER = 'set_angle_topic'  # 发布舵机设定角度话题 / Publish set_angle topic
+ROBO_ARM_ACTION_SERVER = '/arm_controller/follow_joint_trajectory'  # 机械臂动作服务器名 / Arm action server name
+ROBO_GRIPPER_ACTION_SERVER = '/hand_controller/gripper_cmd'  # 夹爪动作服务器名 / Gripper action server name
+
+# 机器人关节名称与索引映射 / Joint name to index mapping
 ROBO_TYPE_1 = "viola"
 ROBO_TYPE_1_JOINT_ = [
     "joint1",
@@ -27,197 +29,151 @@ ROBO_TYPE_1_JOINT_ = [
     "joint6",
     "joint7_left",
 ]
-ROBO_TYPE_1_INDEX_JOINT_ = {
-    value: index for index, value in enumerate(ROBO_TYPE_1_JOINT_)
-}
+ROBO_TYPE_1_INDEX_JOINT_ = {name: idx for idx, name in enumerate(ROBO_TYPE_1_JOINT_)}
+
 
 class PID:
+    """PID 控制器 / PID controller"""
     def __init__(self, Kp, Ki, Kd, setpoint=0):
-        self.Kp = Kp  # 比例系数
-        self.Ki = Ki  # 积分系数
-        self.Kd = Kd  # 微分系数
-        self.setpoint = setpoint  # 设定值
-        self.previous_error = 0  # 上一个误差
-        self.integral = 0  # 积分值
+        self.Kp = Kp  # 比例系数 / proportional gain
+        self.Ki = Ki  # 积分系数 / integral gain
+        self.Kd = Kd  # 微分系数 / derivative gain
+        self.setpoint = setpoint  # 目标值 / desired setpoint
+        self.previous_error = 0  # 上一次误差 / last error
+        self.integral = 0  # 积分累积 / integral term
 
     def update(self, measured_value, dt):
-        error = self.setpoint - measured_value  # 计算当前误差
-        self.integral += error * dt  # 更新积分值
-        derivative = (error - self.previous_error) / dt  # 计算微分项
-        # PID控制公式
-        output = self.Kp * error + self.Ki * self.integral + self.Kd * derivative
-        self.previous_error = error  # 更新上一个误差
+        """计算 PID 输出 / compute PID output"""
+        error = self.setpoint - measured_value  # 当前误差 / current error
+        self.integral += error * dt  # 积分项 / integrate error
+        derivative = (error - self.previous_error) / dt  # 微分项 / derivative term
+        output = self.Kp * error + self.Ki * self.integral + self.Kd * derivative  # PID公式 / PID formula
+        self.previous_error = error  # 更新历史误差 / update last error
         return output
 
 
+def radians_to_degrees(radians):
+    """弧度转角度 / convert radians to degrees"""
+    return radians * (180 / math.pi)
 
-def radians_to_degrees( radians):
-    degrees = radians * (180 / math.pi)
-    return degrees
 def meters_to_degrees(meters):
-    degrees = (meters / 0.032) * 100
-    return degrees
+    """长度(米)转角度（基于臂长0.032m）/ convert meters to degrees"""
+    return (meters / 0.032) * 100
+
 def jointstate2servoangle(servo_id, joint_state):
-    if servo_id == 0:
-        return radians_to_degrees(joint_state)
-    elif servo_id == 1:
-        return radians_to_degrees(joint_state)
-    elif servo_id == 2:
-        return radians_to_degrees(joint_state)
-    elif servo_id == 3:
-        return radians_to_degrees(joint_state)
-    elif servo_id == 4:
-        return radians_to_degrees(joint_state)
-    elif servo_id == 5:
+    """关节状态转舵机命令角度 / joint state to servo angle"""
+    if servo_id < 6:
         return radians_to_degrees(joint_state)
     elif servo_id == 6:
-        return meters_to_degrees(joint_state)+100
+        return meters_to_degrees(joint_state) + 100
+
 
 class RoboActionClient(Node):
-    current_angle = [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
-    current_joint_state = [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
-    last_time = 0
-
-
-
+    """机械臂与夹爪动作服务器节点 / Action server node for arm & gripper"""
     def __init__(self):
         super().__init__(ROBO_ACTION_NODE)
-
+        # 使用可重入回调组支持并发 / Use reentrant callback group for concurrency
         self.callback_group = ReentrantCallbackGroup()
-        # 创建手臂动作服务器
-        self.Arm_FollowJointTrajectoryNode = ActionServer(
+        # 创建机械臂轨迹跟踪动作服务器 / Arm trajectory action server
+        self.arm_action_server = ActionServer(
             self,
             FollowJointTrajectory,
             ROBO_ARM_ACTION_SERVER,
-            execute_callback = self.arm_execute_callback,
-            cancel_callback = self.arm_cancel_callback,
-            callback_group=self.callback_group
+            execute_callback=self.arm_execute_callback,
+            cancel_callback=self.arm_cancel_callback,
+            callback_group=self.callback_group,
         )
-        #创建夹爪动作服务器
-        self.Hand_GripperCommandNode = ActionServer(
+        # 创建夹爪控制动作服务器 / Gripper control action server
+        self.gripper_action_server = ActionServer(
             self,
             GripperCommand,
-            ROBO_GIRRPER_ACTION_SERVER,
-            execute_callback = self.gripper_execute_callback,
-            cancel_callback = self.gripper_cancel_callback,
-            callback_group=self.callback_group
+            ROBO_GRIPPER_ACTION_SERVER,
+            execute_callback=self.gripper_execute_callback,
+            cancel_callback=self.gripper_cancel_callback,
+            callback_group=self.callback_group,
         )
-        # 创建话题 :接收current_angle_topic消息
-        self.currentangle_subscription = self.create_subscription(
-            JointState,                                               
+        # 订阅当前关节状态话题 / Subscribe current joint states
+        self.current_angle_subscription = self.create_subscription(
+            JointState,
             ROBO_CURRENT_ANGLE_SUBSCRIPTION,
             self.current_angle_callback,
             1,
-            callback_group=self.callback_group)
+            callback_group=self.callback_group,
+        )
+        # 发布舵机角度设定话题 / Publisher for SetAngle messages
+        self.set_angle_publisher = self.create_publisher(
+            SetAngle, ROBO_SET_ANGLE_PUBLISHER, 1
+        )
+        self.get_logger().info(f"{ROBO_ACTION_NODE} is ready.")  # 节点就绪日志 / ready log
+        self.current_angle = [0.0] * 7  # 当前舵机角度缓存 / current servo angles
+        self.last_time = 0  # 上一次时间戳 / last trajectory time index
 
-        #发布角度控制话题
-        self.set_angle_publishers = self.create_publisher(
-            SetAngle,ROBO_SET_ANGLE_PUBLISHER,
-            1)
-
-        self.get_logger().info(f'{ROBO_ACTION_NODE} is ready.')
-
-    def arm_cancel_callback(self,cancel_request):
-        self.get_logger().info('Received cancel request')
+    def arm_cancel_callback(self, cancel_request):
+        """处理机械臂动作取消请求 / handle cancel request"""
+        self.get_logger().info('Received arm cancel request')
         return CancelResponse.ACCEPT
 
-        
-    # 接收机械臂当前角度话题回调
     def current_angle_callback(self, msg):
-        _data = msg
-        for i in range(len(_data.name)):
-            joint_id = ROBO_TYPE_1_INDEX_JOINT_[_data.name[i]]
-            self.current_angle[joint_id] = jointstate2servoangle(servo_id = joint_id, joint_state =_data.position[i])
+        """接收并转换 JointState 到舵机角度 / receive joint states"""
+        for name, pos in zip(msg.name, msg.position):
+            idx = ROBO_TYPE_1_INDEX_JOINT_[name]
+            self.current_angle[idx] = jointstate2servoangle(idx, pos)
 
-
-
-
-
-
-    # 处理动作服务器回调
     def arm_execute_callback(self, goal_handle):
+        """执行轨迹点 / execute trajectory points"""
         trajectory = goal_handle.request.trajectory
-        self.get_logger().info(f'Receiving trajectory with {len(trajectory.points)} points.')
+        self.get_logger().info(
+            f'Receiving trajectory with {len(trajectory.points)} points.')
         self.last_time = 0
-        finally_targect = [0 for i in range(6)]
-
-        for index,point in enumerate(trajectory.points):
-            position = point.positions
-            time_from_start = point.time_from_start.sec + point.time_from_start.nanosec/1e9
-            run_time = time_from_start - self.last_time
-            if run_time < 0.1:
-                run_time = 0.1
-            start_time = time.time()
-
-            goal_msg = SetAngle()
-            goal_msg.servo_id = [0,1,2,3,4,5]
-            goal_msg.target_angle = [0.0,0.0,0.0,0.0,0.0,0.0]
-            goal_msg.time = [2000,2000,2000,2000,2000,2000]
-            for i in range(len(trajectory.joint_names)):
-                id = ROBO_TYPE_1_INDEX_JOINT_[trajectory.joint_names[i]]
-                goal_msg.target_angle[id] = jointstate2servoangle(servo_id = id, joint_state = position[i])
-                goal_msg.time[id] = int(run_time*1000)
-            self.last_time = time_from_start
-            self.set_angle_publishers.publish(goal_msg)
-
-            time.sleep(run_time)
-
-        # # 使用PID，完成轨迹规划
-        # self.arm_pid = [PID(1, 0.001, 0.001),
-        #         PID(1.5, 1, 0.001),
-        #         PID(1.2, 1, 0.001),
-        #         PID(1, 0.001, 0.001),
-        #         PID(1.5, 2, 0.001),
-        #         PID(1, 0.001, 0.001),
-        #         PID(1, 0.001, 0.001)]
-        # for id in range(6):
-        #     finally_targect[id] = goal_msg.target_angle[id]
-        #     self.arm_pid[id].setpoint = finally_targect[id]
-        # start_time = time.time()
-        # while 1:
-        #     if time.time() - start_time > 1:
-        #         break
-        #     for id in range(6):
-        #         goal_msg.target_angle[id] = int(self.current_angle[id] + self.arm_pid[id].update(self.current_angle[id], 0.05)) 
-        #         goal_msg.time[id] = int(500)
-
-        #     self.set_angle_publishers.publish(goal_msg)
-        #     time.sleep(0.05)
-
-        # 成功完成所有点，返回成功状态
+        # 遍历轨迹点 / iterate through trajectory
+        for pt in trajectory.points:
+            # 计算每段运行时间 / compute run duration
+            tfs = pt.time_from_start.sec + pt.time_from_start.nanosec * 1e-9
+            duration = max(tfs - self.last_time, 0.1)
+            self.last_time = tfs
+            # 构造 SetAngle 消息 / build SetAngle msg
+            msg = SetAngle(
+                servo_id=list(range(6)),
+                target_angle=[0]*6,
+                time=[int(duration*1000)]*6,
+            )
+            # 填充目标角度 / fill target angles
+            for name, angle in zip(trajectory.joint_names, pt.positions):
+                idx = ROBO_TYPE_1_INDEX_JOINT_[name]
+                msg.target_angle[idx] = jointstate2servoangle(idx, angle)
+            self.set_angle_publisher.publish(msg)  # 发布命令 / publish command
+            time.sleep(duration)  # 等待完成 / wait
+        # 完成后返回成功 / succeed goal
         goal_handle.succeed()
-        result = FollowJointTrajectory.Result()
-        return result
+        return FollowJointTrajectory.Result()
 
-    def gripper_cancel_callback(self,cancel_request):
-        self.get_logger().info('Received cancel request')
+    def gripper_cancel_callback(self, cancel_request):
+        """处理夹爪取消请求 / handle gripper cancel"""
+        self.get_logger().info('Received gripper cancel request')
         return CancelResponse.ACCEPT
 
     def gripper_execute_callback(self, goal_handle):
-        position = goal_handle.request.command.position 
-        # max_effort = goal_handle.request.command.max_effort
-        # print(f"position:{position}")
-        goal_msg = SetAngle()
-        goal_msg.servo_id.append(6)
-        goal_msg.target_angle.append(jointstate2servoangle(servo_id = 6, joint_state = position))
-        goal_msg.time.append(1000)
-        # print(f"max_effort:{max_effort}")
-        self.set_angle_publishers.publish(goal_msg)
+        """执行夹爪命令 / execute gripper command"""
+        pos = goal_handle.request.command.position
+        # 构造单舵机 SetAngle / build single servo command
+        msg = SetAngle(
+            servo_id=[6],
+            target_angle=[jointstate2servoangle(6, pos)],
+            time=[1000],
+        )
+        self.set_angle_publisher.publish(msg)
         goal_handle.succeed()
-
-        result = GripperCommand.Result()
-        return result
-
+        return GripperCommand.Result()
 
 
 def main(args=None):
-    rclpy.init(args=args)
-    action_client = RoboActionClient()
+    rclpy.init(args=args)  # 初始化 ROS 客户端 / init ROS
+    node = RoboActionClient()
     executor = MultiThreadedExecutor()
-    executor.add_node(action_client)
-    executor.spin()
+    executor.add_node(node)  # 添加节点到执行器 / add node
+    executor.spin()  # 运行执行器 / spin executor
+    rclpy.shutdown()  # 退出 ROS / shutdown
 
-    rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
