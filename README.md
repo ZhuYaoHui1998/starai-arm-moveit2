@@ -16,7 +16,7 @@ ROS2:           humble
 
 
 
-## 安装moveit2
+### 安装moveit2
 
 安装moveit2
 
@@ -24,7 +24,12 @@ ROS2:           humble
 sudo apt install ros-humble-moveit*
 ```
 
+### 安装舵机SDK库
 
+```sh
+sudo pip install pyserial
+sudo pip install fashionstar-uart-sdk
+```
 
 ## 使用虚拟机械臂
 
