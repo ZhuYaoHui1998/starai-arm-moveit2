@@ -88,13 +88,15 @@ ros2 launch viola_configure demo.launch.py
 ros2 run robo_driver driver
 ```
 
-### 开启控制器节点/Start the Controller Node
+### 终端2:开启控制器节点
+### Terminal 2:Start the Controller Node
 
 ```bash
 ros2 run viola_controller controller
 ```
 
-### 启动moveit2/ Start the Moveit2
+### 终端3:启动moveit2
+### Terminal 3:Start the Moveit2
 
 ```bash
 ros2 launch viola_configure actual_robot_demo.launch.py
