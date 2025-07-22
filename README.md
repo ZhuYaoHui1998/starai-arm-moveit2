@@ -108,7 +108,6 @@ https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 
 
 
-
 ## FAQ
 
 - 如果rivz2界面出现频闪，可以尝试以下指令/
