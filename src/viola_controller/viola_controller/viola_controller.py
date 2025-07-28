@@ -10,7 +10,7 @@ from control_msgs.action import GripperCommand  # 夹爪控制动作 / Gripper c
 from rclpy.callback_groups import ReentrantCallbackGroup  # 可重入回调组 / Reentrant callback group
 from rclpy.executors import MultiThreadedExecutor  # 多线程执行器 / Executor for multithread
 import math
-
+from sensor_msgs.msg import JointState
 # 常量定义 / Constants
 ROBO_ACTION_NODE = 'viola_controller_node'  # 节点名称 / Node name
 ROBO_CURRENT_ANGLE_SUBSCRIPTION = "joint_states"  # 当前关节角度话题 / Current joint states topic
