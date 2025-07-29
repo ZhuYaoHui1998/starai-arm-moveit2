@@ -122,8 +122,8 @@ class RoboActionClient(Node):
     def arm_execute_callback(self, goal_handle):
         """执行轨迹点 / execute trajectory points"""
         trajectory = goal_handle.request.trajectory
-        self.get_logger().info(
-            f'Receiving trajectory with {len(trajectory.points)} points.')
+        # self.get_logger().info(
+        #     f'Receiving trajectory with {len(trajectory.points)} points.')
         self.last_time = 0
         # 遍历轨迹点 / iterate through trajectory
         for pt in trajectory.points:

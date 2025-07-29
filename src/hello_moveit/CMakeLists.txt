@@ -21,7 +21,10 @@ ament_target_dependencies(
   "moveit_ros_planning_interface"
   "rclcpp"
 )
-
+include_directories(
+  include
+  ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 install(TARGETS hello_moveit
   DESTINATION lib/${PROJECT_NAME})
 

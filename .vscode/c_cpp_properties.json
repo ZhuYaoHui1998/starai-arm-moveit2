@@ -4,7 +4,8 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/src/cello_controller/include"
+                "${workspaceFolder}/src/cello_controller/include",
+                "/opt/ros/humble/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

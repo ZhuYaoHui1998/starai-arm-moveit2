@@ -117,3 +117,10 @@ If you experience flickering in the RViz2 interface, try the following commands:
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
     ```
 
+
+
+## test
+
+ros2 run hello_moveit hello_moveit --ros-args -p xyz:="[-0.0003, -0.2, 0.09]"
+
+ros2 launch viola_moveit_config hello_moveit.launch.py 

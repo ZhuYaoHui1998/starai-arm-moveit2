@@ -11,7 +11,7 @@ def generate_launch_description():
     robo_state_publisher_node = IncludeLaunchDescription(PythonLaunchDescriptionSource([robo_state_publisher_launch,'/robo_state_publisher.launch.py']))
 
 
-    robo_moveit_rviz_launch = os.path.join(get_package_share_directory('viola_configure'),'launch')
+    robo_moveit_rviz_launch = os.path.join(get_package_share_directory('viola_moveit_config'),'launch')
     robo_moveit_rviz_node = IncludeLaunchDescription(PythonLaunchDescriptionSource([robo_moveit_rviz_launch,'/move_group_rviz.launch.py']))
 
 
