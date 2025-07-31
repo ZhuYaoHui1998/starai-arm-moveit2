@@ -17,7 +17,14 @@ int main(int argc, char * argv[])
     "hello_moveit",
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
   );
+ // 使用异步执行器来处理ROS消息回调
+  rclcpp::executors::MultiThreadedExecutor executor;
+  executor.add_node(node);
 
+  // 启动异步执行器线程
+  std::thread executor_thread([&executor]() {
+    executor.spin();
+  });
     // auto node_parameter = rclcpp::Node::make_shared("arm_params", node);
         // 在构造函数或初始化函数中添加
 
@@ -32,7 +39,7 @@ int main(int argc, char * argv[])
   
   
   // 创建ROS日志记录器
-  auto const logger = rclcpp::get_logger("hello_moveit xyz");
+  auto const hello_moveit_logger = rclcpp::get_logger("hello_moveit");
   // RCLCPP_INFO(logger,"hello_moveit=%f,%f,%f", max_vel[0], max_vel[1], max_vel[2]);
   // RCLCPP_INFO(logger,"hello_moveit=%f,%f,%f,%f,%f,%f", msg_value[POSITION_X], msg_value[POSITION_Y], 
   //                                                msg_value[POSITION_Z], msg_value[ORIENTATION_W],
@@ -58,14 +65,7 @@ int main(int argc, char * argv[])
     return msg;
   }();
 
- // 使用异步执行器来处理ROS消息回调
-  rclcpp::executors::MultiThreadedExecutor executor;
-  executor.add_node(node);
 
-  // 启动异步执行器线程
-  std::thread executor_thread([&]() {
-    executor.spin();
-  });
 
 
   // 随后调用move_group_interface对象中的setPoseTarget方法将这个目标姿态设置为机械臂的运动目标
@@ -81,17 +81,17 @@ int main(int argc, char * argv[])
  
 
   auto pose = move_group_interface.getCurrentPose();
-  RCLCPP_INFO(logger,"hello_moveit=%f,%f,%f", pose.pose.position.x, pose.pose.position.y, pose.pose.position.z);
+  RCLCPP_INFO(hello_moveit_logger,"hello_moveit=%f,%f,%f", pose.pose.position.x, pose.pose.position.y, pose.pose.position.z);
 
 
   // 判断标志位，执行plan
   if(success) {
     move_group_interface.execute(plan);
   } else {
-    RCLCPP_ERROR(logger, "Planing failed!");
+    RCLCPP_ERROR(hello_moveit_logger, "Planing failed!");
   }
   // 停止异步执行器
-  executor.spin_some();  // 处理当前队列中的所有回调
+  executor.cancel(); // 取消所有待处理的回调
   executor_thread.join();  // 等待异步线程结束
 
   // 关闭ROS 
