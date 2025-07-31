@@ -15,7 +15,7 @@ def generate_launch_description():
     # Get the launch directory
     bringup_dir = get_package_share_directory('viola_description')
     # launch_dir = os.path.join(bringup_dir, 'launch')
-
+    use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     # Launch configuration variables specific to simulation
     rviz_config_file = LaunchConfiguration('rviz_config_file')
     use_robot_state_pub = LaunchConfiguration('use_robot_state_pub')

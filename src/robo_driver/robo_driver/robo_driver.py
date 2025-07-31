@@ -44,7 +44,7 @@ class writedata:
 
 
 class uservo_ex:
-    ROBO_TYPE_1 = "viola"
+    ROBO_TYPE_1 = "starai"
     ROBO_TYPE_1_JOINT_ = [
         "joint1",
         "joint2",

@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="cello_description">
+      <!-- 添加虚拟根链接 -->
+  <link name="world"/>
+
+  <!-- 添加固定关节 -->
+  <joint name="world_to_base" type="fixed">
+    <parent link="world"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0185665958431925 0.0237703344115316 0.000316871998479529"
+        rpy="0 0 0" />
+      <mass
+        value="0.860146103961966" />
+      <inertia
+        ixx="0.00164232799348848"
+        ixy="-6.71840190453391E-06"
+        ixz="1.59502026038028E-06"
+        iyy="0.00312628775863791"
+        iyz="-2.52071111486874E-06"
+        izz="0.00170608787375079" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="link1">
+    <inertial>
+      <origin
+        xyz="-0.00293659515445004 -0.000166267252386236 0.030485264993778"
+        rpy="0 0 0" />
+      <mass
+        value="0.211492633912495" />
+      <inertia
+        ixx="0.00014371720093856"
+        ixy="3.66663978162206E-08"
+        ixz="-1.62979839621169E-07"
+        iyy="0.000130150440405187"
+        iyz="2.18212503305571E-07"
+        izz="0.00019218981060271" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint1"
+    type="revolute">
+    <origin
+      xyz="0 0 0.0665"
+      rpy="0 0 3.1416" />
+    <parent
+      link="base_link" />
+    <child
+      link="link1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-2.27"
+      upper="2.27"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link2">
+    <inertial>
+      <origin
+        xyz="0.1885115364536 0.0113251781305915 1.63404807941194E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.227311190417969" />
+      <inertia
+        ixx="9.223855532802E-05"
+        ixy="3.05844204635486E-07"
+        ixz="-3.39116277003053E-08"
+        iyy="0.000275614516047104"
+        iyz="1.47692178724399E-07"
+        izz="0.000266469770927709" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint2"
+    type="revolute">
+    <origin
+      xyz="0.0022 0 0.0638"
+      rpy="-1.5708 -1.5708 0" />
+    <parent
+      link="link1" />
+    <child
+      link="link2" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link3">
+    <inertial>
+      <origin
+        xyz="0.0611057027698938 0.00285373563465841 0.000308179387542533"
+        rpy="0 0 0" />
+      <mass
+        value="0.0623016674269844" />
+      <inertia
+        ixx="3.27641771814371E-05"
+        ixy="-1.36991125224235E-07"
+        ixz="-5.03629347281208E-11"
+        iyy="2.8138233772221E-05"
+        iyz="-2.07089691754385E-12"
+        izz="2.00711122359931E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint3"
+    type="revolute">
+    <origin
+      xyz="0.2476 0.0396 0"
+      rpy="0 0 1.5708" />
+    <parent
+      link="link2" />
+    <child
+      link="link3" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link4">
+    <inertial>
+      <origin
+        xyz="0.000729594597532746 -0.000125926768648373 -0.103946810426539"
+        rpy="0 0 0" />
+      <mass
+        value="0.0850055961870255" />
+      <inertia
+        ixx="0.000102625748865945"
+        ixy="3.3616752747751E-08"
+        ixz="1.60143434133556E-07"
+        iyy="9.28495819429823E-05"
+        iyz="9.03345793296242E-09"
+        izz="1.83288445936644E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint4"
+    type="revolute">
+    <origin
+      xyz="0.26712 0.00308 0"
+      rpy="-1.5708 0 -1.5708" />
+    <parent
+      link="link3" />
+    <child
+      link="link4" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-2.27"
+      upper="2.27"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link5">
+    <inertial>
+      <origin
+        xyz="0.0335375994440514 0.00853304389691528 0.000381142452559995"
+        rpy="0 0 0" />
+      <mass
+        value="0.0163654245254692" />
+      <inertia
+        ixx="4.68510252192476E-06"
+        ixy="-6.95561752431801E-07"
+        ixz="-5.08961649625169E-11"
+        iyy="4.52254377075873E-06"
+        iyz="-2.59810725028352E-13"
+        izz="4.70106807865181E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint5"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="1.5708 -1.5708 0" />
+    <parent
+      link="link4" />
+    <child
+      link="link5" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-1.57"
+      upper="1.57"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link6">
+    <inertial>
+      <origin
+        xyz="0.00392619665426891 0.000329475027204002 -0.0656755875584046"
+        rpy="0 0 0" />
+      <mass
+        value="0.0539231941559604" />
+      <inertia
+        ixx="8.14363187419384E-05"
+        ixy="5.11378434619829E-08"
+        ixz="-3.7560749893412E-06"
+        iyy="2.73524846835263E-05"
+        iyz="5.38863543981379E-08"
+        izz="7.03066761474059E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link6.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint6"
+    type="revolute">
+    <origin
+      xyz="0.17066 0.0048225 0"
+      rpy="1.5708 0 1.5708" />
+    <parent
+      link="link5" />
+    <child
+      link="link6" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-2.27"
+      upper="2.27"
+      effort="100"
+      velocity="1" />
+  </joint>
+  <link
+    name="link7_left">
+    <inertial>
+      <origin
+        xyz="-4.33087985039493E-05 -0.021028880533585 -0.0312030540403159"
+        rpy="0 0 0" />
+      <mass
+        value="0.0118967398398553" />
+      <inertia
+        ixx="1.53554000943577E-06"
+        ixy="6.15488946515542E-11"
+        ixz="1.01866287381271E-22"
+        iyy="8.58356634133819E-07"
+        iyz="-2.09480277751459E-07"
+        izz="1.93904913603243E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link7_left.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link7_left.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint7_left"
+    type="prismatic">
+    <origin
+      xyz="0.01019 0 0"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="link6" />
+    <child
+      link="link7_left" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.03"
+      upper="0"
+      effort="5"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="link7_right">
+    <inertial>
+      <origin
+        xyz="4.33087985036718E-05 -0.021028880533585 0.032103054040318"
+        rpy="0 0 0" />
+      <mass
+        value="0.0118967398398553" />
+      <inertia
+        ixx="1.53554000943577E-06"
+        ixy="-6.15488946521698E-11"
+        ixz="1.10034142934896E-22"
+        iyy="8.5835663413382E-07"
+        iyz="2.09480277751459E-07"
+        izz="1.93904913603243E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link7_right.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://cello_description/meshes/link7_right.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint7_right"
+    type="prismatic">
+    <origin
+      xyz="0.01019 0 0"
+      rpy="1.5708 0 3.1416" />
+    <parent
+      link="link6" />
+    <child
+      link="link7_right" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="5"
+      velocity="3.14" />
+    <mimic joint="joint7_left" />
+  </joint>
+</robot>

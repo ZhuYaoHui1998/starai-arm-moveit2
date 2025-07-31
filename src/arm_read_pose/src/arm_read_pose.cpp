@@ -13,8 +13,6 @@ int main(int argc, char * argv[])
   // 初始化ROS并新建节点
   rclcpp::init(argc, argv);
 
-
-
   auto const node = std::make_shared<rclcpp::Node>(
     "arm_read_pose",
     rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true)
