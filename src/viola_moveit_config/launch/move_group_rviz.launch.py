@@ -13,7 +13,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.parameter_descriptions import ParameterValue
 
 def generate_launch_description():
-    moveit_config = MoveItConfigsBuilder("viola_description", package_name="viola_configure").to_moveit_configs()
+    moveit_config = MoveItConfigsBuilder("viola_description", package_name="viola_moveit_config").to_moveit_configs()
 
     ld = LaunchDescription()
 

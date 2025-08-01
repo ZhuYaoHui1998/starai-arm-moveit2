@@ -22,7 +22,7 @@ int main(int argc, char * argv[])
   executor.add_node(node);
 
   // 启动异步执行器线程
-  std::thread executor_thread([&executor]() {
+  std::thread executorThread([&executor]() {
     executor.spin();
   });
     // auto node_parameter = rclcpp::Node::make_shared("arm_params", node);
@@ -45,12 +45,16 @@ int main(int argc, char * argv[])
   //                                                msg_value[POSITION_Z], msg_value[ORIENTATION_W],
   //                                                msg_value[ORIENTATION_X],msg_value[ORIENTATION_Y]);
 
-  auto move_group_interface = MoveGroupInterface(node, "arm");
-  // move_group_interface.startStateMonitor();
+  auto moveGroupInterface = MoveGroupInterface(node, "arm");
+  // moveGroupInterface.startStateMonitor();
 
-  move_group_interface.setPlanningTime(10.0); // 设置为 10 秒
-  move_group_interface.setMaxVelocityScalingFactor(1);
-  move_group_interface.setMaxAccelerationScalingFactor(0);
+  moveGroupInterface.setPlanningTime(10.0);               // 设置为 10 秒
+  moveGroupInterface.setMaxVelocityScalingFactor(1);
+  moveGroupInterface.setMaxAccelerationScalingFactor(0);
+  // moveGroupInterface.setGoalTolerance(0.01);             // 位置容差
+  // moveGroupInterface.setGoalOrientationTolerance(0.01);  // 方向容差
+  moveGroupInterface.allowReplanning(true);              // 允许重规划
+  moveGroupInterface.setNumPlanningAttempts(10);        // 增加尝试次数  
   // 这里定义了一个lambda表达式来创建目标姿态，是一个geometry_msgs::msg::Pose类型的消息。这个姿态被设置为x=0.28，y=-0.2，z=0.5，w=1.0 
   auto const target_pose = [msg_value]{
     geometry_msgs::msg::Pose msg;
@@ -65,34 +69,36 @@ int main(int argc, char * argv[])
     return msg;
   }();
 
+  RCLCPP_INFO(hello_moveit_logger,"target position    = %f,%f,%f", target_pose.position.x, target_pose.position.y, target_pose.position.z);
+  RCLCPP_INFO(hello_moveit_logger,"target orientation = %f,%f,%f,%f", target_pose.orientation.x, target_pose.orientation.y, target_pose.orientation.z,target_pose.orientation.w);
 
 
 
-  // 随后调用move_group_interface对象中的setPoseTarget方法将这个目标姿态设置为机械臂的运动目标
-  move_group_interface.setPoseTarget(target_pose);
+  // 随后调用moveGroupInterface对象中的setPoseTarget方法将这个目标姿态设置为机械臂的运动目标
+  moveGroupInterface.setPoseTarget(target_pose);
  
   //lambda表达式中生成计划并传入msg，返回到列表中plan
-  auto const [success, plan] = [&move_group_interface]
+  auto const [success, plan] = [&moveGroupInterface]
   {
     moveit::planning_interface::MoveGroupInterface::Plan msg;
-    auto const ok = static_cast<bool>(move_group_interface.plan(msg));
+    auto const ok = static_cast<bool>(moveGroupInterface.plan(msg));
     return std::make_pair(ok, msg);
   }();
  
 
-  auto pose = move_group_interface.getCurrentPose();
-  RCLCPP_INFO(hello_moveit_logger,"hello_moveit=%f,%f,%f", pose.pose.position.x, pose.pose.position.y, pose.pose.position.z);
-
+  auto pose = moveGroupInterface.getCurrentPose();
+  RCLCPP_INFO(hello_moveit_logger,"current position    = %f,%f,%f", pose.pose.position.x, pose.pose.position.y, pose.pose.position.z);
+  RCLCPP_INFO(hello_moveit_logger,"current orientation = %f,%f,%f,%f", target_pose.orientation.x, target_pose.orientation.y, target_pose.orientation.z,target_pose.orientation.w);
 
   // 判断标志位，执行plan
   if(success) {
-    move_group_interface.execute(plan);
+    moveGroupInterface.execute(plan);
   } else {
     RCLCPP_ERROR(hello_moveit_logger, "Planing failed!");
   }
   // 停止异步执行器
   executor.cancel(); // 取消所有待处理的回调
-  executor_thread.join();  // 等待异步线程结束
+  executorThread.join();  // 等待异步线程结束
 
   // 关闭ROS 
   rclcpp::shutdown();

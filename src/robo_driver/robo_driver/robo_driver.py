@@ -251,7 +251,6 @@ class Arm_contorl(Node):
         self.target_angle = self.Servo.ZERO_ANGLE
         # self.target_angle 初始目标角度列表 / initial target angle list
         self.interval = [1500 for _ in range(self.Servo.srv_num)]
-        # self.speed = [50 for _ in range(self.Servo.srv_num)]
         self.current_angle = [0.0 for _ in range(self.Servo.srv_num)]
         self.arm_move_by_time()
 
@@ -277,7 +276,7 @@ class Arm_contorl(Node):
             self.target_angle[id] = int(10*msg.target_angle[i])
             if int(msg.time[i]) < 40:
                 (msg.time[i]) = 40
-            self.interval[id] = int(msg.time[i])+100
+            self.interval[id] = int(msg.time[i])+400
 
             self.arm_move_by_time()
 

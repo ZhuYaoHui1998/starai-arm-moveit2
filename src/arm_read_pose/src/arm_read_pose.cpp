@@ -29,14 +29,20 @@ int main(int argc, char * argv[])
         // 在构造函数或初始化函数中添加
 
   // 创建ROS日志记录器
-  auto const hello_moveit_logger = rclcpp::get_logger("arm_read_pose");
+  auto const arm_read_pose_logger = rclcpp::get_logger("arm_read_pose");
 
 
   auto move_group_interface = MoveGroupInterface(node, "arm");
   // move_group_interface.startStateMonitor();
-
-  auto pose = move_group_interface.getCurrentPose();
-  RCLCPP_INFO(hello_moveit_logger,"hello_moveit=%f,%f,%f", pose.pose.position.x, pose.pose.position.y, pose.pose.position.z);
+  while (rclcpp::ok())
+  {
+    rclcpp::Rate rate(1); // 1Hz
+    move_group_interface.allowReplanning(true);  
+    auto get_pose = move_group_interface.getCurrentPose();
+    RCLCPP_INFO(arm_read_pose_logger,"target position = x:%.3f,y:%.3f,z:%.3f / target orientation = x:%.3f,y:%.3f,z:%.3f,w:%.3f", 
+                 get_pose.pose.position.x, get_pose.pose.position.y, get_pose.pose.position.z,get_pose.pose.orientation.x, get_pose.pose.orientation.y, get_pose.pose.orientation.z,get_pose.pose.orientation.w);
+    
+  }
 
   // 停止异步执行器
   executor.cancel(); // 取消所有待处理的回调
