@@ -69,8 +69,8 @@ int main(int argc, char * argv[])
     return msg;
   }();
 
-  RCLCPP_INFO(hello_moveit_logger,"target position    = %f,%f,%f", target_pose.position.x, target_pose.position.y, target_pose.position.z);
-  RCLCPP_INFO(hello_moveit_logger,"target orientation = %f,%f,%f,%f", target_pose.orientation.x, target_pose.orientation.y, target_pose.orientation.z,target_pose.orientation.w);
+  RCLCPP_INFO(hello_moveit_logger,"target position    = x:%f,y:%f,z:%f", target_pose.position.x, target_pose.position.y, target_pose.position.z);
+  RCLCPP_INFO(hello_moveit_logger,"target orientation = x:%f,y:%f,z:%f,w:%f", target_pose.orientation.x, target_pose.orientation.y, target_pose.orientation.z,target_pose.orientation.w);
 
 
 
@@ -86,9 +86,9 @@ int main(int argc, char * argv[])
   }();
  
 
-  auto pose = moveGroupInterface.getCurrentPose();
-  RCLCPP_INFO(hello_moveit_logger,"current position    = %f,%f,%f", pose.pose.position.x, pose.pose.position.y, pose.pose.position.z);
-  RCLCPP_INFO(hello_moveit_logger,"current orientation = %f,%f,%f,%f", target_pose.orientation.x, target_pose.orientation.y, target_pose.orientation.z,target_pose.orientation.w);
+  // auto pose = moveGroupInterface.getCurrentPose();
+  // RCLCPP_INFO(hello_moveit_logger,"current position    = %f,%f,%f", pose.pose.position.x, pose.pose.position.y, pose.pose.position.z);
+  // RCLCPP_INFO(hello_moveit_logger,"current orientation = %f,%f,%f,%f", target_pose.orientation.x, target_pose.orientation.y, target_pose.orientation.z,target_pose.orientation.w);
 
   // 判断标志位，执行plan
   if(success) {

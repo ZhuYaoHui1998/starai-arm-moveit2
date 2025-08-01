@@ -39,7 +39,7 @@ int main(int argc, char * argv[])
     rclcpp::Rate rate(1); // 1Hz
     move_group_interface.allowReplanning(true);  
     auto get_pose = move_group_interface.getCurrentPose();
-    RCLCPP_INFO(arm_read_pose_logger,"target position = x:%.3f,y:%.3f,z:%.3f / target orientation = x:%.3f,y:%.3f,z:%.3f,w:%.3f", 
+    RCLCPP_INFO(arm_read_pose_logger,"position = x:%.3f,y:%.3f,z:%.3f / orientation = x:%.3f,y:%.3f,z:%.3f,w:%.3f", 
                  get_pose.pose.position.x, get_pose.pose.position.y, get_pose.pose.position.z,get_pose.pose.orientation.x, get_pose.pose.orientation.y, get_pose.pose.orientation.z,get_pose.pose.orientation.w);
     
   }

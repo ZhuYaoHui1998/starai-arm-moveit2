@@ -106,6 +106,16 @@ ros2 launch viola_configure actual_robot_demo.launch.py
 
 https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 
+## moveit demo & read_arm_pose demo(TODO)
+
+### viola:
+ros2 launch viola_moveit_config hello_moveit.launch.py 
+ros2 launch viola_moveit_config arm_read_pose.launch.py 
+
+### cello:
+ros2 launch cello_moveit_config hello_moveit.launch.py 
+ros2 launch cello_moveit_config arm_read_pose.launch.py 
+
 
 
 ## FAQ
@@ -117,13 +127,3 @@ If you experience flickering in the RViz2 interface, try the following commands:
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
     ```
 
-
-
-## test
-
-ros2 run hello_moveit hello_moveit --ros-args -p xyz:="[-0.0003, -0.2, 0.09]"
-
-ros2 launch viola_moveit_config hello_moveit.launch.py 
-ros2 launch cello_moveit_config hello_moveit.launch.py 
-ros2 launch viola_moveit_config arm_read_pose.launch.py 
-ros2 launch cello_moveit_config arm_read_pose.launch.py 
