@@ -73,7 +73,7 @@ source ~/.bashrc
 ## Starai Arm Moveit2仿真脚本/Starai Arm MoveIt2 Simulation Script
 
 ```bash
-ros2 launch viola_configure demo.launch.py 
+ros2 launch viola_moveit_config demo.launch.py 
 ```
 
 
@@ -99,7 +99,7 @@ ros2 run viola_controller controller
 ### Terminal 3:Start the Moveit2
 
 ```bash
-ros2 launch viola_configure actual_robot_demo.launch.py
+ros2 launch viola_moveit_config actual_robot_demo.launch.py
 ```
 
 
@@ -109,13 +109,15 @@ https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 ## moveit demo & read_arm_pose demo(TODO)
 
 ### viola:
+```bash
 ros2 launch viola_moveit_config hello_moveit.launch.py 
 ros2 launch viola_moveit_config arm_read_pose.launch.py 
-
+```
 ### cello:
+```bash
 ros2 launch cello_moveit_config hello_moveit.launch.py 
 ros2 launch cello_moveit_config arm_read_pose.launch.py 
-
+```
 
 
 ## FAQ

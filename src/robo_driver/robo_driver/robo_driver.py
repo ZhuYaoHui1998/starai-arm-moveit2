@@ -6,15 +6,12 @@ Robot arm driver node
 """
 import rclpy
 from rclpy.node import Node
-# from uservo.uservo_ex import uservo_ex
 from robo_interfaces.srv import ReadData, WriteData
 from robo_interfaces.msg import SetAngle
 import struct
 from sensor_msgs.msg import JointState
 import math
-import struct
 import fashionstar_uart_sdk as uservo
-from robo_interfaces.srv import ReadData, WriteData
 import time
 import serial
 
@@ -44,8 +41,8 @@ class writedata:
 
 
 class uservo_ex:
-    ROBO_TYPE_1 = "starai"
-    ROBO_TYPE_1_JOINT_ = [
+    ROBO_TYPE = "star"
+    ROBO_TYPE_JOINT = [
         "joint1",
         "joint2",
         "joint3",
@@ -54,76 +51,55 @@ class uservo_ex:
         "joint6",
         "joint7_left",
     ]
-    ROBO_TYPE_1_INDEX_JOINT_ = {
-        value: index for index, value in enumerate(ROBO_TYPE_1_JOINT_)
+    ROBO_TYPE_INDEX_JOINT = {
+        value: index for index, value in enumerate(ROBO_TYPE_JOINT)
     }
+    SRV_NUM =7
 
 
     # 参数 / Parameters:
     # PORT_NAME: 设置舵机串口号，默认使用/dev/ttyUSB0，当需要在同一个设备上使用多个机械臂时，需要修改该参数
     #            Port name: Serial port for servos, default "/dev/ttyUSB0", change when using multiple arms
-    # SET_ZERO: 是否回到零位，默认回到零位 / Whether to return to zero position, default True
-    # CHECK_ANGLE: 是否检查上电舵机角度，默认检查，确保初始化状态一致性。
     #              Whether to check servo angle on power-up, default True to ensure consistent init
-    def __init__(self, robo_type, PORT_NAME=None, SET_ZERO=True, CHECK_ANGLE=True):
+    def __init__(self,robo_type,log = None):
         self.ROBO_TYPE = robo_type
-        if self.ROBO_TYPE == self.ROBO_TYPE_1:
-            self.JOINT_ = self.ROBO_TYPE_1_JOINT_
-            self.INDEX_JOINT_ = self.ROBO_TYPE_1_INDEX_JOINT_
+        if self.ROBO_TYPE == self.ROBO_TYPE:
+            self.JOINT_ = self.ROBO_TYPE_JOINT
+            self.INDEX_JOINT_ = self.ROBO_TYPE_INDEX_JOINT
         else:
-            self.JOINT_ = self.ROBO_TYPE_1_JOINT_
-            self.INDEX_JOINT_ = self.ROBO_TYPE_1_INDEX_JOINT_
+            self.JOINT_ = self.ROBO_TYPE_JOINT
+            self.INDEX_JOINT_ = self.ROBO_TYPE_INDEX_JOINT
         self.INDEX_JOINT_ = {value: index for index, value in enumerate(self.JOINT_)}
-
+        self.log = log
         # 初始化串口 / Initialize serial port
-        success = False
-        while not success:
-            try:
-                if PORT_NAME == None:
-                    self.uart = serial.Serial(
-                        port=SERVO_PORT_NAME,
-                        baudrate=SERVO_BAUDRATE,
-                        parity=serial.PARITY_NONE,
-                        stopbits=1,
-                        bytesize=8,
-                        timeout=0,
-                    )
-                else:
-                    self.uart = serial.Serial(
-                        port=PORT_NAME,
-                        baudrate=SERVO_BAUDRATE,
-                        parity=serial.PARITY_NONE,
-                        stopbits=1,
-                        bytesize=8,
-                        timeout=0,
-                    )
-                success = True  # 如果成功初始化，则设置成功标志 / set flag on successful init
-            except serial.SerialException as e:
-                print(f"串口初始化失败: {e}")  # Serial port init failed
-                raise
+        try:
+            self.uart = serial.Serial(port=SERVO_PORT_NAME,baudrate=SERVO_BAUDRATE,parity=serial.PARITY_NONE,stopbits=1,bytesize=8,timeout=0)
+        except serial.SerialException as e:
+            if self.log != None:
+                self.log.error(f"{e}")
+            raise ValueError(f"串口初始化失败: {e}")  # Serial port init failed
         try:
             self.uservo = uservo.UartServoManager(self.uart)
         except Exception as e:
             raise
 
         self.servo_ids = [0,1,2,3,4,5,6]
-        self.srv_num =7
-        self.ZERO_ANGLE = [0 for _ in range(self.srv_num)]
+        self.ZERO_ANGLE = [0 for _ in range(self.SRV_NUM)]
         self.ZERO_ANGLE[6] = 500
         self.reset_multi_turn_angle(0xff)
         time.sleep(0.1)
 
     # 将弧度转为角度 / Convert radians to degrees
-    @classmethod
-    def radians_to_degrees(cls, radians):
-        degrees = radians * (180 / math.pi)
-        return degrees
+    # @classmethod
+    # def radians_to_degrees(cls, radians):
+    #     degrees = radians * (180 / math.pi)
+    #     return degrees
 
     # 将米转为角度 / Convert meters to degrees based on link length
     @classmethod
-    def meters_to_degrees(cls, meters):
-        degrees = (meters / 0.032) * 100
-        return degrees
+    # def meters_to_degrees(cls, meters):
+    #     degrees = (meters / 0.032) * 100
+    #     return degrees
 
     # 将角度转为弧度 / Convert degrees to radians
     @classmethod
@@ -145,9 +121,9 @@ class uservo_ex:
         elif servo_id == 6:
             return cls.degrees_to_meters(servo_angle-100)
 
-    # 设置角度 / Send synchronous angle commands
-    def set_angle(self, size, command_data_list):
-            self.uservo.send_sync_angle(size, command_data_list)
+    # # 设置角度 / Send synchronous angle commands
+    # def set_angle(self, size, command_data_list):
+    #         self.uservo.send_sync_angle(size, command_data_list)
 
     # 设置角度（指定转速） / Send angle commands with specified speed
     def set_angle_by_interval(self, size, command_data_list):
@@ -156,9 +132,9 @@ class uservo_ex:
             size, command_data_list
         )
 
-    # 设置单舵机角度 / Set single servo angle
-    def set_single_angle(self, servo_id, angle, velocity=30):
-            self.uservo.set_servo_angle(servo_id, angle, velocity=velocity)
+    # # 设置单舵机角度 / Set single servo angle
+    # def set_single_angle(self, servo_id, angle, velocity=30):       
+    #         self.uservo.set_servo_angle(servo_id, angle, velocity=velocity)
 
     # 查询角度 / Query current servo angle
     def query_servo_current_angle(self, servo_id):
@@ -169,26 +145,26 @@ class uservo_ex:
     def disable_torque(self, servo_id):
         self.servo_stop(servo_id)
 
-    # 使能舵机 / Enable servo torque
-    def enable_torque(self, servo_id):
-        current_angle = self.uservo.query_servo_angle(servo_id)
-        self.set_single_angle(servo_id, current_angle)
+    # # 使能舵机 / Enable servo torque
+    # def enable_torque(self, servo_id):
+    #     current_angle = self.uservo.query_servo_angle(servo_id)
+    #     self.set_single_angle(servo_id, current_angle)
 
-    # 查询一次温度 / Query servo temperature once
-    def get_temperature(self, servo_id):
-        if servo_id in self.uservo.servos:
-            return self.uservo.query_temperature(servo_id)
+    # # 查询一次温度 / Query servo temperature once
+    # def get_temperature(self, servo_id):
+    #     if servo_id in self.uservo.servos:
+    #         return self.uservo.query_temperature(servo_id)
 
-    # 查询错误码 / Query error status code
-    def get_error_code(self, servo_id):
-        if servo_id in self.uservo.servos:
-            code = self.uservo.query_status(servo_id)
-            return 0 if code <= 1 else code
+    # # 查询错误码 / Query error status code
+    # def get_error_code(self, servo_id):
+    #     if servo_id in self.uservo.servos:
+    #         code = self.uservo.query_status(servo_id)
+    #         return 0 if code <= 1 else code
 
-    # 重设所有舵机多圈圈数 / Reset multi-turn count for all servos
-    def reset_all_servo_multi_turn_angle(self):
-        for i in self.uservo.servos:
-            self.reset_multi_turn_angle(i)
+    # # 重设所有舵机多圈圈数 / Reset multi-turn count for all servos
+    # def reset_all_servo_multi_turn_angle(self):
+    #     for i in self.uservo.servos:
+    #         self.reset_multi_turn_angle(i)
 
     # 重设指定舵机多圈圈数 / Reset multi-turn count for a single servo
     def reset_multi_turn_angle(self, servo_id):
@@ -198,41 +174,41 @@ class uservo_ex:
 
     # 返回舵机数量 / Return number of servos
     def servo_num(self):
-        return self.srv_num or 0
+        return self.SRV_NUM or 0
 
     # 停止并释放锁力 / Stop servo and release torque lock
     def servo_stop(self, servo_id, mode=2, power=500):
         self.uservo.stop_on_control_mode(servo_id, mode, power)
 
-    # 停止所有舵机 / Stop all servos
-    def servo_all_stop(self, mode=2, power=200):
-        for id in range(self.srv_num):
-            self.servo_stop(id, mode, power)
-            time.sleep(0.05)
+    # # 停止所有舵机 / Stop all servos
+    # def servo_all_stop(self, mode=2, power=200):
+    #     for id in range(self.SRV_NUM):
+    #         self.servo_stop(id, mode, power)
+    #         time.sleep(0.05)
 
-    # 舵机停止释放锁力 / Stop single servo release lock
-    def servo_stop_lock(self, servo_id):
-        self.uservo.stop_on_control_mode(servo_id, 0, 500)
+    # # 舵机停止释放锁力 / Stop single servo release lock
+    # def servo_stop_lock(self, servo_id):
+    #     self.uservo.stop_on_control_mode(servo_id, 0, 500)
 
-    # 舵机保持锁力 / Keep servo torque lock
-    def servo_keep_lock(self, servo_id):
-        self.uservo.stop_on_control_mode(servo_id, 1, 50000)
+    # # 舵机保持锁力 / Keep servo torque lock
+    # def servo_keep_lock(self, servo_id):
+    #     self.uservo.stop_on_control_mode(servo_id, 1, 50000)
 
     # 舵机设置原点 / Set servo origin point
     def servo_set_origin_point(self, servo_id):
         self.uservo.set_origin_point(servo_id)
 
-    # 发送0°角度命令 / Send zero-degree angle command
-    def servo_set_zero_angle(self, servo_id, angle, interval, power):
-        self.uservo.set_servo_angle(servo_id, angle, interval, power)
+    # # 发送0°角度命令 / Send zero-degree angle command
+    # def servo_set_zero_angle(self, servo_id, angle, interval, power):
+    #     self.uservo.set_servo_angle(servo_id, angle, interval, power)
 
-    # 读取内存表数据 / Read from servo memory table
-    def servo_read_data(self, servo_id, address):
-        self.uservo.read_data(servo_id, address)
+    # # 读取内存表数据 / Read from servo memory table
+    # def servo_read_data(self, servo_id, address):
+    #     self.uservo.read_data(servo_id, address)
 
-    # 写入内存表数据 / Write to servo memory table
-    def servo_write_data(self, servo_id, address, content):
-        self.uservo.write_data(servo_id, address, content)
+    # # 写入内存表数据 / Write to servo memory table
+    # def servo_write_data(self, servo_id, address, content):
+    #     self.uservo.write_data(servo_id, address, content)
 
 
 
@@ -241,17 +217,16 @@ class Arm_contorl(Node):
     def __init__(self):
         super().__init__(ROBO_DRIVER_NODE)
         self.declare_parameter("robo_type", "robo")
-        self.robo_type = (
-            self.get_parameter("robo_type").get_parameter_value().string_value
-        )
+        self.robo_type = (self.get_parameter("robo_type").get_parameter_value().string_value)
+
         try:
-            self.Servo = uservo_ex(self.robo_type)
+            self.Servo = uservo_ex(self.robo_type,log = self.get_logger())
         except ValueError as e:
             raise
         self.target_angle = self.Servo.ZERO_ANGLE
         # self.target_angle 初始目标角度列表 / initial target angle list
-        self.interval = [1500 for _ in range(self.Servo.srv_num)]
-        self.current_angle = [0.0 for _ in range(self.Servo.srv_num)]
+        self.interval = [1500 for _ in range(self.Servo.SRV_NUM)]
+        self.current_angle = [0.0 for _ in range(self.Servo.SRV_NUM)]
         self.arm_move_by_time()
 
         # 创建话题：发布joint_states / Create publisher for joint_states topic
@@ -292,7 +267,7 @@ class Arm_contorl(Node):
         JointState_msg.effort = []
         self.Servo.uservo.send_sync_servo_monitor(self.Servo.servo_ids)
 
-        for i in range(self.Servo.srv_num):
+        for i in range(self.Servo.SRV_NUM):
             self.current_angle[i] = self.Servo.uservo.servos[i].angle_monitor
             JointState_msg.name.append(self.Servo.JOINT_[i])
             JointState_msg.position.append(
@@ -304,11 +279,11 @@ class Arm_contorl(Node):
 
     # 默认：控制by时间 / Default control mode: time-based
     def arm_move_by_time(self):
-        acc = [0.0 for _ in range(self.Servo.srv_num)]
-        for i in range(self.Servo.srv_num):
+        acc = [0.0 for _ in range(self.Servo.SRV_NUM)]
+        for i in range(self.Servo.SRV_NUM):
             acc[i] = int(self.interval[i]/2)
-        command_data_list = [struct.pack("<BlLHHH", i, self.target_angle[i], self.interval[i], acc[i], acc[i], 0) for i in range(self.Servo.srv_num)]
-        self.Servo.set_angle_by_interval(self.Servo.srv_num, command_data_list)
+        command_data_list = [struct.pack("<BlLHHH", i, self.target_angle[i], self.interval[i], acc[i], acc[i], 0) for i in range(self.Servo.SRV_NUM)]
+        self.Servo.set_angle_by_interval(self.Servo.SRV_NUM, command_data_list)
 
 
 
@@ -317,7 +292,6 @@ def main(args=None):
     try:
         robo_driver_node = Arm_contorl()
     except Exception as e:
-        print(e)
         return
 
     try:
