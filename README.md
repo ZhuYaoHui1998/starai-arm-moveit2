@@ -129,3 +129,7 @@ If you experience flickering in the RViz2 interface, try the following commands:
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
     ```
 
+source install/setup.bash
+ros2 run arm_moveit_control arm_moveit_control
+ros2 run arm_moveit_control position_orientation_publisher
+ros2 run arm_moveit_read arm_moveit_read
