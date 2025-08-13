@@ -106,7 +106,7 @@ ros2 launch viola_moveit_config actual_robot_demo.launch.py
 
 https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 
-## moveit demo & read_arm_pose demo(TODO)
+## arm_moveit_write demo & arm_moveit_read demo
 
 ### viola:
 ```bash
@@ -119,11 +119,16 @@ ros2 launch cello_moveit_config arm_moveit_write.launch.py
 ros2 launch cello_moveit_config arm_moveit_read.launch.py
 ```
 
+### 位姿话题发送节点demo:
+
+```bash
+ros2 run arm_moveit_write topic_publisher
+```
 
 ## FAQ
 
 - 如果rivz2界面出现频闪，可以尝试以下指令/
-If you experience flickering in the RViz2 interface, try the following commands:
+  If you experience flickering in the RViz2 interface, try the following commands:
 
     ```bash
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
