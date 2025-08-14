@@ -18,7 +18,7 @@ public:
     gripper_pub_ = this->create_publisher<robo_interfaces::msg::GripperCommand>(
       "gripper_command_topic", 10);
 
-    // 传统初始化方式（兼容 C++11）
+    // viola
     dataset1_ = {
       {0.003, -0.204, 0.274},       // position
       {0.014, 0.717, 0.017, 0.696}, // orientation
@@ -31,8 +31,21 @@ public:
       "close"                        // gripper_state
     };
 
+    // cello
+    // dataset1_ = {
+    //   {-0.27880, 0.0000022075, 0.43849},       // position
+    //   {0.70713, 0.000034917, -0.70709, 0.000056086}, // orientation
+    //   "open"                         // gripper_state
+    // };
+
+    // dataset2_ = {
+    //   {-0.47959, -0.000018764, 0.36999},        // position
+    //   {0.70712, -0.00001244, -0.7071, 0.000036032},   // orientation
+    //   "close"                        // gripper_state
+    // };
+
     timer_ = this->create_wall_timer(
-      2000ms, std::bind(&CombinedPublisher::timer_callback, this));
+      3000ms, std::bind(&CombinedPublisher::timer_callback, this));
   }
 
 private:
