@@ -128,7 +128,7 @@ ros2 run arm_moveit_write topic_publisher
 ## FAQ
 
 - 如果rivz2界面出现频闪，可以尝试以下指令/
-  If you experience flickering in the RViz2 interface, try the following commands:
+If you experience flickering in the RViz2 interface, try the following commands:
 
     ```bash
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
