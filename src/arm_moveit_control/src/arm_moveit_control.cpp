@@ -17,14 +17,18 @@ public:
   ArmMoveitControl() : Node("arm_moveit_control"), logger_(this->get_logger()), is_first_message_(true), last_gripper_state_("")
   {
     // 创建订阅者，订阅位置和方向信息
-    subscription_ = this->create_subscription<robo_interfaces::msg::PositionOrientation>(
+    subscription_ = create_subscription<robo_interfaces::msg::PositionOrientation>(
       "position_orientation_topic", 10,
-      std::bind(&ArmMoveitControl::topic_callback, this, std::placeholders::_1));
+      [this](const robo_interfaces::msg::PositionOrientation::SharedPtr msg) {
+        this->topic_callback(msg);
+      });
     
     // 创建订阅者，订阅夹爪控制信息
-    gripper_subscription_ = this->create_subscription<robo_interfaces::msg::GripperCommand>(
+    gripper_subscription_ = create_subscription<robo_interfaces::msg::GripperCommand>(
       "gripper_command_topic", 10,
-      std::bind(&ArmMoveitControl::gripper_callback, this, std::placeholders::_1));
+      [this](const robo_interfaces::msg::GripperCommand::SharedPtr msg) {
+        this->gripper_callback(msg);
+      });
     
     // 创建发布者，用于发送夹爪控制命令
     set_angle_publisher_ = this->create_publisher<robo_interfaces::msg::SetAngle>(
@@ -55,6 +59,7 @@ public:
   }
 
 private:
+  std::mutex mutex_;
   void topic_callback(const robo_interfaces::msg::PositionOrientation::SharedPtr msg)
   {
     // 检查是否与上一次的位置和方向相同

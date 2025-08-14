@@ -26,20 +26,20 @@ include_directories(
   include
   ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
-# Add position_orientation_publisher executable
-add_executable(position_orientation_publisher src/position_orientation_publisher.cpp)
-target_include_directories(position_orientation_publisher PUBLIC
+# Add combined_publisher executable
+add_executable(combined_publisher src/combined_publisher.cpp)
+target_include_directories(combined_publisher PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>)
-target_compile_features(position_orientation_publisher PUBLIC c_std_99 cxx_std_17)
+target_compile_features(combined_publisher PUBLIC c_std_99 cxx_std_17)
 ament_target_dependencies(
-  position_orientation_publisher
+  combined_publisher
   "moveit_ros_planning_interface"
   "rclcpp"
   "robo_interfaces"
 )
 
-install(TARGETS arm_moveit_control position_orientation_publisher
+install(TARGETS arm_moveit_control combined_publisher
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
