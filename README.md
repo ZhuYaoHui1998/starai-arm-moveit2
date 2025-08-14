@@ -110,13 +110,13 @@ https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 
 ### viola:
 ```bash
-ros2 launch viola_moveit_config hello_moveit.launch.py 
-ros2 launch viola_moveit_config arm_read_pose.launch.py 
+ros2 launch viola_moveit_config arm_moveit_write.launch.py
+ros2 launch viola_moveit_config arm_moveit_read.launch.py
 ```
 ### cello:
 ```bash
-ros2 launch cello_moveit_config hello_moveit.launch.py 
-ros2 launch cello_moveit_config arm_read_pose.launch.py 
+ros2 launch cello_moveit_config arm_moveit_write.launch.py
+ros2 launch cello_moveit_config arm_moveit_read.launch.py
 ```
 
 
@@ -128,8 +128,3 @@ If you experience flickering in the RViz2 interface, try the following commands:
     ```bash
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
     ```
-
-source install/setup.bash
-ros2 run arm_moveit_control arm_moveit_control
-ros2 run arm_moveit_control position_orientation_publisher
-ros2 run arm_moveit_read arm_moveit_read
