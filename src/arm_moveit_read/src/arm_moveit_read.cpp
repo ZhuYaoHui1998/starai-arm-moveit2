@@ -43,7 +43,7 @@ void joint_states_callback(const sensor_msgs::msg::JointState::SharedPtr msg)
     auto gripper_msg = robo_interfaces::msg::GripperCommand();
     
     // 判断角度，设置命令
-    if (degrees >= 80) {  // 如果角度大于等于80度，认为是open状态
+    if (degrees >= 90) {  // 如果角度大于等于90度，认为是open状态
       gripper_msg.command = "open";
     } else {  // 否则认为是close状态
       gripper_msg.command = "close";

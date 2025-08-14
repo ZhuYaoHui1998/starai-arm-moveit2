@@ -3,7 +3,7 @@
 #include <thread>
 #include "rclcpp/rclcpp.hpp"
 #include "moveit/move_group_interface/move_group_interface.h"
-#include "arm_moveit_control.hpp"
+#include "arm_moveit_write.hpp"
 #include "robo_interfaces/msg/position_orientation.hpp"
 #include "robo_interfaces/msg/set_angle.hpp"
 #include "robo_interfaces/msg/gripper_command.hpp"
