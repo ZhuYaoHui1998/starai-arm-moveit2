@@ -55,14 +55,14 @@ sudo pip install fashionstar-uart-sdk
 ### 创建工作空间并初始化/Create a workspace and Initialization.
 
 ```bash
-mkdir -p ~/starai_ws/src
-cd ~/starai_ws
+mkdir -p ~/starai-arm-moveit2/src
+cd ~/starai-arm-moveit2
 colcon build
 ```
 
 ### 克隆starai-arm-moveit2功能包/Clone `starai-arm-moveit2` Ros2's Package
 ```
-cd ~/starai_ws/src
+cd ~/starai-arm-moveit2/src
 git clone https://github.com/Welt-liu/starai-arm-moveit2.git
 cd ~/starai_ws
 colcon build
@@ -149,3 +149,15 @@ ros2 run arm_moveit_write topic_publisher
     ```bash
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
     ```
+
+
+
+ros2 launch viola_moveit_config driver.launch.py
+ros2 launch viola_moveit_config actual_robot_demo.launch.py
+ros2 launch viola_moveit_config moveit_write_read.py
+ros2 run arm_moveit_write topic_publisher 
+
+ros2 launch cello_moveit_config driver.launch.py
+ros2 launch cello_moveit_config actual_robot_demo.launch.py
+ros2 launch cello_moveit_config moveit_write_read.py
+ros2 run arm_moveit_write topic_publisher 
