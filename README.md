@@ -91,15 +91,31 @@ ros2 run robo_driver driver
 ### 终端2:开启控制器节点
 ### Terminal 2:Start the Controller Node
 
+### viola:
+
 ```bash
 ros2 run viola_controller controller
+```
+
+### cello:
+
+```bash
+ros2 run cello_controller controller
 ```
 
 ### 终端3:启动moveit2
 ### Terminal 3:Start the Moveit2
 
+### viola:
+
 ```bash
 ros2 launch viola_moveit_config actual_robot_demo.launch.py
+```
+
+### cello:
+
+```bash
+ros2 launch cello_moveit_config actual_robot_demo.launch.py
 ```
 
 
@@ -128,7 +144,7 @@ ros2 run arm_moveit_write topic_publisher
 ## FAQ
 
 - 如果rivz2界面出现频闪，可以尝试以下指令/
-If you experience flickering in the RViz2 interface, try the following commands:
+  If you experience flickering in the RViz2 interface, try the following commands:
 
     ```bash
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
