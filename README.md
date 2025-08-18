@@ -52,94 +52,103 @@ sudo pip install pyserial
 sudo pip install fashionstar-uart-sdk
 ```
 
-### 创建工作空间并初始化/Create a workspace and Initialization.
-
-```bash
-mkdir -p ~/starai-arm-moveit2/src
-cd ~/starai-arm-moveit2
-colcon build
-```
-
 ### 克隆starai-arm-moveit2功能包/Clone `starai-arm-moveit2` Ros2's Package
 ```
-cd ~/starai-arm-moveit2/src
+cd ~/
 git clone https://github.com/Welt-liu/starai-arm-moveit2.git
-cd ~/starai_ws
+cd ~/starai-arm-moveit2
 colcon build
-echo "source ~/starai_ws/install/setup.bash" >> ~/.bashrc
+echo "source ~/starai-arm-moveit2/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-## Starai Arm Moveit2仿真脚本/Starai Arm MoveIt2 Simulation Script
+
+
+## viola:
+
+### Starai Arm Moveit2仿真脚本/Starai Arm MoveIt2 Simulation Script
 
 ```bash
 ros2 launch viola_moveit_config demo.launch.py 
 ```
 
 
-## 使用真实的机械臂/Using a Real Robotic Arm
+### 使用真实的机械臂/Using a Real Robotic Arm
 
-### 终端1:开启手臂控制节点
-### Terminal 1: Start the Arm Control Node
+#### 终端1:启动手臂硬件驱动
+#### Terminal 1: Start the arm hardware driver
 
 手臂会移动到零位/The Arm Will Move to The Zero Position.
 
 ```bash
-ros2 run robo_driver driver
+ros2 launch viola_moveit_config driver.launch.py
 ```
 
-### 终端2:开启控制器节点
-### Terminal 2:Start the Controller Node
-
-### viola:
-
-```bash
-ros2 run viola_controller controller
-```
-
-### cello:
-
-```bash
-ros2 run cello_controller controller
-```
-
-### 终端3:启动moveit2
-### Terminal 3:Start the Moveit2
-
-### viola:
+#### 终端2:启动moveit2
+#### Terminal 2:Starthe Moveit2
 
 ```bash
 ros2 launch viola_moveit_config actual_robot_demo.launch.py
 ```
 
-### cello:
+https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
+
+#### 手臂末端位姿读写示例/End-effector pose read/write demo
+
+```bash
+ros2 launch viola_moveit_config moveit_write_read.py
+```
+
+#### 位姿话题发送节点示例/Position and orientation topic sending node demo
+
+```bash
+ros2 run arm_moveit_write topic_publisher 
+```
+
+
+
+## cello:
+
+### Starai Arm Moveit2仿真脚本/Starai Arm MoveIt2 Simulation Script
+
+```bash
+ros2 launch cello_moveit_config demo.launch.py 
+```
+
+
+### 使用真实的机械臂/Using a Real Robotic Arm
+
+#### 终端1:启动手臂硬件驱动
+
+#### Terminal 1: Start the arm hardware driver
+
+手臂会移动到零位/The Arm Will Move to The Zero Position.
+
+```bash
+ros2 launch cello_moveit_config driver.launch.py
+```
+
+#### 终端2:启动moveit2
+
+#### Terminal 2:Starthe Moveit2
 
 ```bash
 ros2 launch cello_moveit_config actual_robot_demo.launch.py
 ```
 
-
-
-https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
-
-## arm_moveit_write demo & arm_moveit_read demo
-
-### viola:
-```bash
-ros2 launch viola_moveit_config arm_moveit_write.launch.py
-ros2 launch viola_moveit_config arm_moveit_read.launch.py
-```
-### cello:
-```bash
-ros2 launch cello_moveit_config arm_moveit_write.launch.py
-ros2 launch cello_moveit_config arm_moveit_read.launch.py
-```
-
-### 位姿话题发送节点demo:
+#### 手臂末端位姿读写示例/End-effector pose read/write demo
 
 ```bash
-ros2 run arm_moveit_write topic_publisher
+ros2 launch cello_moveit_config moveit_write_read.py
 ```
+
+#### 位姿话题发送节点示例/Position and orientation topic sending node demo
+
+```bash
+ros2 run arm_moveit_write topic_publisher 
+```
+
+
 
 ## FAQ
 
@@ -151,13 +160,3 @@ ros2 run arm_moveit_write topic_publisher
     ```
 
 
-
-ros2 launch viola_moveit_config driver.launch.py
-ros2 launch viola_moveit_config actual_robot_demo.launch.py
-ros2 launch viola_moveit_config moveit_write_read.py
-ros2 run arm_moveit_write topic_publisher 
-
-ros2 launch cello_moveit_config driver.launch.py
-ros2 launch cello_moveit_config actual_robot_demo.launch.py
-ros2 launch cello_moveit_config moveit_write_read.py
-ros2 run arm_moveit_write topic_publisher 
