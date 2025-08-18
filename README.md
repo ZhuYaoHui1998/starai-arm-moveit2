@@ -1,4 +1,4 @@
-# Starai Arm 机械臂ROS2 Moveit 使用教程
+# Starai Arm 机械臂-ROS2 Moveit 使用教程
 # Starai Arm Manipulator - ROS2 MoveIt Guide
 
 <div align="center">
@@ -45,7 +45,7 @@ ROS2:           Humble
 sudo apt install ros-humble-moveit*
 ```
 
-### 安装舵机SDK库/Install Servo Motor's SDK
+### 安装舵机SDK库/Install servo's SDK
 
 ```bash
 sudo pip install pyserial
@@ -62,21 +62,25 @@ echo "source ~/starai-arm-moveit2/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-
+https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 
 ## viola:
 
-### Starai Arm Moveit2仿真脚本/Starai Arm MoveIt2 Simulation Script
+### 激活机械臂&MoveIt2/Activate the robotic arm & MoveIt2
+
+
+
+#### 使用虚拟机械臂/Using a virtual robotic arm
 
 ```bash
 ros2 launch viola_moveit_config demo.launch.py 
 ```
 
 
-### 使用真实的机械臂/Using a Real Robotic Arm
 
-#### 终端1:启动手臂硬件驱动
-#### Terminal 1: Start the arm hardware driver
+#### 使用真实的机械臂/Using a real robotic arm
+
+终端1:启动手臂硬件驱动/Terminal 1: Start the arm hardware driver
 
 手臂会移动到零位/The Arm Will Move to The Zero Position.
 
@@ -84,16 +88,19 @@ ros2 launch viola_moveit_config demo.launch.py
 ros2 launch viola_moveit_config driver.launch.py
 ```
 
-#### 终端2:启动moveit2
-#### Terminal 2:Starthe Moveit2
+
+
+
+
+终端2:启动moveit2/Terminal 2:Starthe Moveit2
 
 ```bash
 ros2 launch viola_moveit_config actual_robot_demo.launch.py
 ```
 
-https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 
-#### 手臂末端位姿读写示例/End-effector pose read/write demo
+
+### 手臂末端位姿读写示例/End-effector pose read/write demo
 
 ```bash
 ros2 launch viola_moveit_config moveit_write_read.launch.py
@@ -109,18 +116,19 @@ ros2 run arm_moveit_write topic_publisher
 
 ## cello:
 
-### Starai Arm Moveit2仿真脚本/Starai Arm MoveIt2 Simulation Script
+### 激活机械臂&MoveIt2/Activate the robotic arm & MoveIt2
+
+#### 使用虚拟机械臂/Using a virtual robotic arm
 
 ```bash
 ros2 launch cello_moveit_config demo.launch.py 
 ```
 
 
-### 使用真实的机械臂/Using a Real Robotic Arm
 
-#### 终端1:启动手臂硬件驱动
+#### 使用真实的机械臂/Using a real robotic arm
 
-#### Terminal 1: Start the arm hardware driver
+终端1:启动手臂硬件驱动/Terminal 1: Start the arm hardware driver
 
 手臂会移动到零位/The Arm Will Move to The Zero Position.
 
@@ -128,15 +136,19 @@ ros2 launch cello_moveit_config demo.launch.py
 ros2 launch cello_moveit_config driver.launch.py
 ```
 
-#### 终端2:启动moveit2
 
-#### Terminal 2:Starthe Moveit2
+
+
+
+终端2:启动moveit2/Terminal 2:Starthe Moveit2
 
 ```bash
 ros2 launch cello_moveit_config actual_robot_demo.launch.py
 ```
 
-#### 手臂末端位姿读写示例/End-effector pose read/write demo
+
+
+### 手臂末端位姿读写示例/End-effector pose read/write demo
 
 ```bash
 ros2 launch cello_moveit_config moveit_write_read.launch.py
@@ -153,7 +165,7 @@ ros2 run arm_moveit_write topic_publisher
 ## FAQ
 
 - 如果rivz2界面出现频闪，可以尝试以下指令/
-If you experience flickering in the RViz2 interface, try the following commands:
+  If you experience flickering in the RViz2 interface, try the following commands:
 
     ```bash
     export QT_AUTO_SCREEN_SCALE_FACTOR=0
