@@ -146,8 +146,6 @@ ros2 launch cello_moveit_config driver.launch.py
 ros2 launch cello_moveit_config actual_robot_demo.launch.py
 ```
 
-
-
 ### 手臂末端位姿读写示例/End-effector pose read/write demo
 
 ```bash
@@ -156,11 +154,42 @@ ros2 launch cello_moveit_config moveit_write_read.launch.py
 
 #### 位姿话题发送节点示例/Position and orientation topic sending node demo
 
-```bash
-ros2 run arm_moveit_write topic_publisher 
+请更新文件/update here
+
+src/arm_moveit_write/src/topic_publisher.cpp
+
+```cpp
+    // // viola
+    // dataset1_ = { 
+    //   {0.003, -0.204, 0.274},       // position
+    //   {0.014, 0.717, 0.017, 0.696}, // orientation
+    //   "open"                         // gripper_state
+    // };
+    // dataset2_ = {
+    //   {-0.00, -0.34, 0.177},        // position
+    //   {0.0, 0.7071, 0.0, 0.7071},   // orientation
+    //   "close"                        // gripper_state
+    // };
+
+    // cello
+    dataset1_ = {
+      {-0.278, 0.000, 0.438},       // position
+      {0.707, 0.000, -0.707, 0.000}, // orientation
+      "open"                         // gripper_state
+    };
+    dataset2_ = {
+      {-0.479, -0.000, 0.369},        // position
+      {0.707, -0.000, -0.707, 0.000},   // orientation
+      "close"                        // gripper_state
+    }
+
 ```
 
-
+```bash
+colcon build
+source install/setup.sh
+ros2 run arm_moveit_write topic_publisher 
+```
 
 ## FAQ
 
