@@ -96,7 +96,7 @@ https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 #### 手臂末端位姿读写示例/End-effector pose read/write demo
 
 ```bash
-ros2 launch viola_moveit_config moveit_write_read.py
+ros2 launch viola_moveit_config moveit_write_read.launch.py
 ```
 
 #### 位姿话题发送节点示例/Position and orientation topic sending node demo
@@ -139,7 +139,7 @@ ros2 launch cello_moveit_config actual_robot_demo.launch.py
 #### 手臂末端位姿读写示例/End-effector pose read/write demo
 
 ```bash
-ros2 launch cello_moveit_config moveit_write_read.py
+ros2 launch cello_moveit_config moveit_write_read.launch.py
 ```
 
 #### 位姿话题发送节点示例/Position and orientation topic sending node demo
