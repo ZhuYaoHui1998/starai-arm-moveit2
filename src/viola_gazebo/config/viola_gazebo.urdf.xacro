@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="viola_description">
+
+    <link name="world"/>
+    <joint name="fixed" type="fixed">
+        <parent link="world"/>
+        <child link="base_link"/>
+    </joint>
+
+    <xacro:include filename="$(find viola_description)/urdf/viola_gazebo.urdf" />
+    <xacro:include filename="$(find viola_description)/urdf/gazebo_configs.urdf.xacro" />
+
+</robot>
+
