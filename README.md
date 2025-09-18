@@ -89,9 +89,6 @@ ros2 launch viola_moveit_config driver.launch.py
 ```
 
 
-
-
-
 终端2:启动moveit2/Terminal 2:Starthe Moveit2
 
 ```bash
@@ -111,7 +108,70 @@ ros2 launch viola_moveit_config moveit_write_read.launch.py
 ```bash
 ros2 run arm_moveit_write topic_publisher 
 ```
+请更新文件/update here
 
+src/arm_moveit_write/src/topic_publisher.cpp
+
+```cpp
+    // viola
+    dataset1_ = { 
+    {0.003, -0.204, 0.274},       // position
+    {0.014, 0.717, 0.017, 0.696}, // orientation
+       "open"                         // gripper_state
+     };
+     dataset2_ = {
+       {-0.00, -0.34, 0.177},        // position
+       {0.0, 0.7071, 0.0, 0.7071},   // orientation
+       "close"                        // gripper_state
+     };
+
+    // cello
+    //dataset1_ = {
+    //  {-0.278, 0.000, 0.438},       // position
+    //  {0.707, 0.000, -0.707, 0.000}, // orientation
+    //  "open"                         // gripper_state
+    //};
+    //dataset2_ = {
+    //  {-0.479, -0.000, 0.369},        // position
+    //  {0.707, -0.000, -0.707, 0.000},   // orientation
+    //  "close"                        // gripper_state
+    //}
+
+```
+
+```bash
+colcon build
+source install/setup.sh
+ros2 run arm_moveit_write topic_publisher 
+```
+### MoveIt2-gazebo仿真机械臂例程/MoveIt2-Gazebo Simulation Robot Arm Example
+**注意事项**:
+
+1. 在运行例程前，需要关闭其他所有正在运行的节点。
+
+</td></tr></table>
+
+2. 安装gazebo/Install gazebo
+
+   ```
+   sudo apt install gazebo
+   sudo apt install ros-humble-moveit*
+   ```
+
+终端1:启动gazebo图形界面/Terminal 1: Launch the Gazebo graphical user interface
+
+```bash
+ros2 launch viola_gazebo viola_gazebo.launch.py
+```
+> [!TIP]
+>
+> 在关闭gazebo图形界面后，建议在终端使用**pkill -9 -f gazebo**命令彻底关闭   
+
+终端2:启动moveit2界面/Terminal 2:Launch the MoveIt2 interface
+
+```bash
+ros2 launch viola_moveit_config gazebo_demo.launch.py
+```
 
 
 ## cello:
@@ -191,6 +251,34 @@ source install/setup.sh
 ros2 run arm_moveit_write topic_publisher 
 ```
 
+### MoveIt2-gazebo仿真机械臂例程/MoveIt2-Gazebo Simulation Robot Arm Example
+**注意事项**:
+
+1. 在运行例程前，需要关闭其他所有正在运行的节点。
+
+</td></tr></table>
+
+2. 安装gazebo/Install gazebo
+
+   ```
+   sudo apt install gazebo
+   sudo apt install ros-humble-moveit*
+   ```
+
+终端1:启动gazebo图形界面/Terminal 1: Launch the Gazebo graphical user interface
+```bash
+ros2 launch cello_gazebo cello_gazebo.launch.py
+```
+
+> [!TIP]
+>
+> 在关闭gazebo图形界面后，建议在终端使用**pkill -f gazebo**命令彻底关闭   
+
+终端2:启动moveit2界面/Terminal 2:Launch the MoveIt2 interface
+
+```bash
+ros2 launch cello_moveit_config gazebo_demo.launch.py
+```
 ## FAQ
 
 - 如果rivz2界面出现频闪，可以尝试以下指令/
