@@ -272,7 +272,7 @@ ros2 launch cello_gazebo cello_gazebo.launch.py
 
 > [!TIP]
 >
-> 在关闭gazebo图形界面后，建议在终端使用**pkill -f gazebo**命令彻底关闭   
+> 在关闭gazebo图形界面后，建议在终端使用**pkill -9 -f gazebo**命令彻底关闭   
 
 终端2:启动moveit2界面/Terminal 2:Launch the MoveIt2 interface
 
