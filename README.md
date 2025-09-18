@@ -124,8 +124,6 @@ ros2 run arm_moveit_write topic_publisher
 ros2 launch cello_moveit_config demo.launch.py 
 ```
 
-
-
 #### 使用真实的机械臂/Using a real robotic arm
 
 终端1:启动手臂硬件驱动/Terminal 1: Start the arm hardware driver
