@@ -3,7 +3,7 @@
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot
-  name="cello_description">
+  name="viola_description">
       <!-- 添加虚拟根链接 -->
   <!-- <link name="world"/> -->
 
@@ -17,17 +17,17 @@
     name="base_link">
     <inertial>
       <origin
-        xyz="0.0185665958431925 0.0237703344115316 0.000316871998479529"
+        xyz="1.0267E-07 -0.046722 -0.026927"
         rpy="0 0 0" />
       <mass
-        value="0.860146103961966" />
+        value="0.34245" />
       <inertia
-        ixx="0.00164232799348848"
-        ixy="-6.71840190453391E-06"
-        ixz="1.59502026038028E-06"
-        iyy="0.00312628775863791"
-        iyz="-2.52071111486874E-06"
-        izz="0.00170608787375079" />
+        ixx="0.00079997"
+        ixy="-1.8453E-10"
+        ixz="6.6766E-10"
+        iyy="0.00096879"
+        iyz="-2.2236E-05"
+        izz="0.00028538" />
     </inertial>
     <visual>
       <origin
@@ -35,7 +35,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/base_link.STL" />
+          filename="file://$(find viola_gazebo)/meshes/base_link.STL" />
       </geometry>
       <material
         name="">
@@ -49,7 +49,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/base_link.STL" />
+          filename="file://$(find viola_gazebo)/meshes/base_link.STL" />
       </geometry>
     </collision>
   </link>
@@ -57,17 +57,17 @@
     name="link1">
     <inertial>
       <origin
-        xyz="-0.00293659515445004 -0.000166267252386236 0.030485264993778"
+        xyz="0.00945929848513669 -1.3495679371496E-05 0.0125260726596105"
         rpy="0 0 0" />
       <mass
-        value="0.211492633912495" />
+        value="0.0144992701953334" />
       <inertia
-        ixx="0.00014371720093856"
-        ixy="3.66663978162206E-08"
-        ixz="-1.62979839621169E-07"
-        iyy="0.000130150440405187"
-        iyz="2.18212503305571E-07"
-        izz="0.00019218981060271" />
+        ixx="2.20206728759526E-06"
+        ixy="-3.39221832582901E-09"
+        ixz="-2.3292146278621E-07"
+        iyy="3.15721267641348E-06"
+        iyz="-1.36887296772761E-11"
+        izz="3.90207130365304E-06" />
     </inertial>
     <visual>
       <origin
@@ -75,7 +75,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link1.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link1.STL" />
       </geometry>
       <material
         name="">
@@ -89,7 +89,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link1.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link1.STL" />
       </geometry>
     </collision>
   </link>
@@ -97,35 +97,35 @@
     name="joint1"
     type="revolute">
     <origin
-      xyz="0 0 0.0665"
-      rpy="0 0 3.1416" />
+      xyz="0 -0.00968 0.0037502"
+      rpy="0 0 -1.5708" />
     <parent
       link="base_link" />
     <child
       link="link1" />
     <axis
-      xyz="0 0 -1" />
+      xyz="7.6046E-05 0 -1" />
     <limit
       lower="-2.27"
       upper="2.27"
-      effort="100"
+      effort="1"
       velocity="1" />
   </joint>
   <link
     name="link2">
     <inertial>
       <origin
-        xyz="0.1885115364536 0.0113251781305915 1.63404807941194E-05"
+        xyz="0.114964625129059 -0.00467704143791725 4.1629044596727E-05"
         rpy="0 0 0" />
       <mass
-        value="0.227311190417969" />
+        value="0.0987772903768165" />
       <inertia
-        ixx="9.223855532802E-05"
-        ixy="3.05844204635486E-07"
-        ixz="-3.39116277003053E-08"
-        iyy="0.000275614516047104"
-        iyz="1.47692178724399E-07"
-        izz="0.000266469770927709" />
+        ixx="2.1184876229622E-05"
+        ixy="5.53852374713764E-06"
+        ixz="-2.84045610394427E-07"
+        iyy="0.000167624486496214"
+        iyz="1.15621876795968E-07"
+        izz="0.00016002189146611" />
     </inertial>
     <visual>
       <origin
@@ -133,7 +133,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link2.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link2.STL" />
       </geometry>
       <material
         name="">
@@ -147,7 +147,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link2.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link2.STL" />
       </geometry>
     </collision>
   </link>
@@ -155,35 +155,35 @@
     name="joint2"
     type="revolute">
     <origin
-      xyz="0.0022 0 0.0638"
-      rpy="-1.5708 -1.5708 0" />
+      xyz="0.00081639 0 0.017894"
+      rpy="1.5708 -1.5708 0" />
     <parent
       link="link1" />
     <child
       link="link2" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
     <limit
       lower="-1.57"
       upper="1.57"
-      effort="100"
+      effort="2.3"
       velocity="1" />
   </joint>
   <link
     name="link3">
     <inertial>
       <origin
-        xyz="0.0611057027698938 0.00285373563465841 0.000308179387542533"
+        xyz="0.0307420220015525 -0.00802251396822781 5.97955914480505E-05"
         rpy="0 0 0" />
       <mass
-        value="0.0623016674269844" />
+        value="0.0176734436095054" />
       <inertia
-        ixx="3.27641771814371E-05"
-        ixy="-1.36991125224235E-07"
-        ixz="-5.03629347281208E-11"
-        iyy="2.8138233772221E-05"
-        iyz="-2.07089691754385E-12"
-        izz="2.00711122359931E-05" />
+        ixx="4.78311450026526E-06"
+        ixy="7.02946410418113E-07"
+        ixz="9.46781923921618E-15"
+        iyy="4.57059651169199E-06"
+        iyz="-4.73223327429523E-13"
+        izz="4.83080271569651E-06" />
     </inertial>
     <visual>
       <origin
@@ -191,7 +191,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link3.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link3.STL" />
       </geometry>
       <material
         name="">
@@ -205,7 +205,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link3.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link3.STL" />
       </geometry>
     </collision>
   </link>
@@ -213,35 +213,35 @@
     name="joint3"
     type="revolute">
     <origin
-      xyz="0.2476 0.0396 0"
-      rpy="0 0 1.5708" />
+      xyz="0.1622 -0.042677 0"
+      rpy="0 0 -1.5708" />
     <parent
       link="link2" />
     <child
       link="link3" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
     <limit
       lower="-1.57"
       upper="1.57"
-      effort="100"
+      effort="2.3"
       velocity="1" />
   </joint>
   <link
     name="link4">
     <inertial>
       <origin
-        xyz="0.000729594597532746 -0.000125926768648373 -0.103946810426539"
+        xyz="-3.73429810664183E-05 -3.34353484130833E-05 -0.0394023804743517"
         rpy="0 0 0" />
       <mass
-        value="0.0850055961870255" />
+        value="0.0317772689370715" />
       <inertia
-        ixx="0.000102625748865945"
-        ixy="3.3616752747751E-08"
-        ixz="1.60143434133556E-07"
-        iyy="9.28495819429823E-05"
-        iyz="9.03345793296242E-09"
-        izz="1.83288445936644E-05" />
+        ixx="5.52051400613132E-06"
+        ixy="6.70142362354289E-12"
+        ixz="-8.04404621260028E-09"
+        iyy="4.24695643927686E-06"
+        iyz="-3.39264989650476E-09"
+        izz="5.04711704401761E-06" />
     </inertial>
     <visual>
       <origin
@@ -249,7 +249,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link4.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link4.STL" />
       </geometry>
       <material
         name="">
@@ -263,7 +263,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link4.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link4.STL" />
       </geometry>
     </collision>
   </link>
@@ -271,8 +271,8 @@
     name="joint4"
     type="revolute">
     <origin
-      xyz="0.26712 0.00308 0"
-      rpy="-1.5708 0 -1.5708" />
+      xyz="0.13611 -0.001325 0"
+      rpy="1.5708 0 1.5708" />
     <parent
       link="link3" />
     <child
@@ -282,24 +282,24 @@
     <limit
       lower="-2.27"
       upper="2.27"
-      effort="100"
+      effort="1"
       velocity="1" />
   </joint>
   <link
     name="link5">
     <inertial>
       <origin
-        xyz="0.0335375994440514 0.00853304389691528 0.000381142452559995"
+        xyz="-0.00907471212229993 -0.0353443496912795 -0.000249999386878842"
         rpy="0 0 0" />
       <mass
-        value="0.0163654245254692" />
+        value="0.0153420053398658" />
       <inertia
-        ixx="4.68510252192476E-06"
-        ixy="-6.95561752431801E-07"
-        ixz="-5.08961649625169E-11"
-        iyy="4.52254377075873E-06"
-        iyz="-2.59810725028352E-13"
-        izz="4.70106807865181E-06" />
+        ixx="4.51552994788011E-06"
+        ixy="-6.95561719240876E-07"
+        ixz="7.12586884715848E-14"
+        iyy="4.67720718357925E-06"
+        iyz="2.88782604962509E-14"
+        izz="4.69712760711317E-06" />
     </inertial>
     <visual>
       <origin
@@ -307,7 +307,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link5.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link5.STL" />
       </geometry>
       <material
         name="">
@@ -321,7 +321,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link5.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link5.STL" />
       </geometry>
     </collision>
   </link>
@@ -330,34 +330,34 @@
     type="revolute">
     <origin
       xyz="0 0 0"
-      rpy="1.5708 -1.5708 0" />
+      rpy="-1.5708 0 0" />
     <parent
       link="link4" />
     <child
       link="link5" />
     <axis
-      xyz="0 0 1" />
+      xyz="0 0 -1" />
     <limit
       lower="-1.57"
       upper="1.57"
-      effort="100"
+      effort="1"
       velocity="1" />
   </joint>
   <link
     name="link6">
     <inertial>
       <origin
-        xyz="0.00392619665426891 0.000329475027204002 -0.0656755875584046"
+        xyz="0.00459726147096562 0.0631536269537692 5.50693461649458E-07"
         rpy="0 0 0" />
       <mass
-        value="0.0539231941559604" />
+        value="0.0604810188118188" />
       <inertia
-        ixx="8.14363187419384E-05"
-        ixy="5.11378434619829E-08"
-        ixz="-3.7560749893412E-06"
-        iyy="2.73524846835263E-05"
-        iyz="5.38863543981379E-08"
-        izz="7.03066761474059E-05" />
+        ixx="8.18878909990245E-05"
+        ixy="3.75608568724252E-06"
+        ixz="5.02678122975633E-08"
+        iyy="7.08701307075363E-05"
+        iyz="-5.39035011630242E-08"
+        izz="2.75137947159543E-05" />
     </inertial>
     <visual>
       <origin
@@ -365,7 +365,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link6.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link6.STL" />
       </geometry>
       <material
         name="">
@@ -379,7 +379,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link6.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link6.STL" />
       </geometry>
     </collision>
   </link>
@@ -387,35 +387,35 @@
     name="joint6"
     type="revolute">
     <origin
-      xyz="0.17066 0.0048225 0"
-      rpy="1.5708 0 1.5708" />
+      xyz="-0.0048225 -0.17065 0"
+      rpy="3.1416 0 3.1416" />
     <parent
       link="link5" />
     <child
       link="link6" />
     <axis
-      xyz="0 0 -1" />
+      xyz="0 1 0" />
     <limit
       lower="-2.27"
       upper="2.27"
-      effort="100"
+      effort="1"
       velocity="1" />
   </joint>
   <link
     name="link7_left">
     <inertial>
       <origin
-        xyz="-4.33087985039493E-05 -0.021028880533585 -0.0312030540403159"
+        xyz="-2.75111773632153E-05 -0.0166499696743121 0.040371259206279"
         rpy="0 0 0" />
       <mass
-        value="0.0118967398398553" />
+        value="0.0093640759491376" />
       <inertia
-        ixx="1.53554000943577E-06"
-        ixy="6.15488946515542E-11"
-        ixz="1.01866287381271E-22"
-        iyy="8.58356634133819E-07"
-        iyz="-2.09480277751459E-07"
-        izz="1.93904913603243E-06" />
+        ixx="1.42325173509405E-06"
+        ixy="3.07744473263422E-11"
+        ixz="1.54466899293368E-12"
+        iyy="6.7892690386922E-07"
+        iyz="2.04200398046579E-07"
+        izz="1.72127779881948E-06" />
     </inertial>
     <visual>
       <origin
@@ -423,7 +423,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link7_left.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link7_left.STL" />
       </geometry>
       <material
         name="">
@@ -437,7 +437,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link7_left.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link7_left.STL" />
       </geometry>
     </collision>
   </link>
@@ -445,8 +445,8 @@
     name="joint7_left"
     type="prismatic">
     <origin
-      xyz="0.01019 0 0"
-      rpy="1.5708 0 3.1416" />
+      xyz="0.01009 0 0"
+      rpy="0 0 3.1416" />
     <parent
       link="link6" />
     <child
@@ -456,24 +456,24 @@
     <limit
       lower="-0.03"
       upper="0"
-      effort="5"
+      effort="1"
       velocity="3.14" />
   </joint>
   <link
     name="link7_right">
     <inertial>
       <origin
-        xyz="4.33087985036718E-05 -0.021028880533585 0.032103054040318"
+        xyz="-2.75111773632708E-05 -0.016649969674312 -0.0403212592062332"
         rpy="0 0 0" />
       <mass
-        value="0.0118967398398553" />
+        value="0.0093640759491376" />
       <inertia
-        ixx="1.53554000943577E-06"
-        ixy="-6.15488946521698E-11"
-        ixz="1.10034142934896E-22"
-        iyy="8.5835663413382E-07"
-        iyz="2.09480277751459E-07"
-        izz="1.93904913603243E-06" />
+        ixx="1.42325173509405E-06"
+        ixy="3.07744473261495E-11"
+        ixz="-1.54466899247189E-12"
+        iyy="6.78926903869219E-07"
+        iyz="-2.0420039804658E-07"
+        izz="1.72127779881948E-06" />
     </inertial>
     <visual>
       <origin
@@ -481,7 +481,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link7_right.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link7_right.STL" />
       </geometry>
       <material
         name="">
@@ -495,7 +495,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="file://$(find cello_gazebo)/meshes/link7_right.STL" />
+          filename="file://$(find viola_gazebo)/meshes/link7_right.STL" />
       </geometry>
     </collision>
   </link>
@@ -503,8 +503,8 @@
     name="joint7_right"
     type="prismatic">
     <origin
-      xyz="0.01019 0 0"
-      rpy="1.5708 0 3.1416" />
+      xyz="0.0100900000000006 0 0"
+      rpy="0 0 3.14159265358979" />
     <parent
       link="link6" />
     <child
@@ -514,7 +514,7 @@
     <limit
       lower="-3.14"
       upper="3.14"
-      effort="5"
+      effort="1"
       velocity="3.14" />
     <mimic joint="joint7_left" />
   </joint>
