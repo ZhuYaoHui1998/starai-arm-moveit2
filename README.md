@@ -1,5 +1,4 @@
-# Starai Arm 机械臂-ROS2 Moveit 使用教程
-# Starai Arm Manipulator - ROS2 MoveIt Guide
+# Starai Arm 机械臂-ROS2 Moveit 使用教程 Starai Arm Manipulator - ROS2 MoveIt Guide
 
 <div align="center">
   <div style="display: flex; gap: 1rem; justify-content: center; align-items: center;" >
@@ -38,7 +37,6 @@ ROS2:           Humble
 
 [ROS2 Humble Installation](https://wiki.seeedstudio.com/install_ros2_humble/)
 
-
 ### 安装Moveit2/Install Moveit2
 
 ```bash
@@ -53,7 +51,8 @@ sudo pip install fashionstar-uart-sdk
 ```
 
 ### 克隆starai-arm-moveit2功能包/Clone `starai-arm-moveit2` Ros2's Package
-```
+
+```bash
 cd ~/
 git clone https://github.com/Welt-liu/starai-arm-moveit2.git
 cd ~/starai-arm-moveit2
@@ -64,19 +63,15 @@ source ~/.bashrc
 
 https://github.com/user-attachments/assets/33fa3722-f0d4-4521-818d-a49d7f6b4909
 
-## viola:
+## viola
 
 ### 激活机械臂&MoveIt2/Activate the robotic arm & MoveIt2
-
-
 
 #### 使用虚拟机械臂/Using a virtual robotic arm
 
 ```bash
 ros2 launch viola_moveit_config demo.launch.py 
 ```
-
-
 
 #### 使用真实的机械臂/Using a real robotic arm
 
@@ -88,14 +83,11 @@ ros2 launch viola_moveit_config demo.launch.py
 ros2 launch viola_moveit_config driver.launch.py
 ```
 
-
 终端2:启动moveit2/Terminal 2:Starthe Moveit2
 
 ```bash
 ros2 launch viola_moveit_config actual_robot_demo.launch.py
 ```
-
-
 
 ### 手臂末端位姿读写示例/End-effector pose read/write demo
 
@@ -108,6 +100,7 @@ ros2 launch viola_moveit_config moveit_write_read.launch.py
 ```bash
 ros2 run arm_moveit_write topic_publisher 
 ```
+
 请更新文件/update here
 
 src/arm_moveit_write/src/topic_publisher.cpp
@@ -144,16 +137,17 @@ colcon build
 source install/setup.sh
 ros2 run arm_moveit_write topic_publisher 
 ```
+
 ### MoveIt2-gazebo仿真机械臂例程/MoveIt2-Gazebo Simulation Robot Arm Example
-**注意事项**:
 
-1. 在运行例程前，需要关闭其他所有正在运行的节点。
+> [!TIP]
+>
+> 在关闭gazebo图形界面后，建议在终端使用**pkill -9 -f gazebo**命令彻底关闭
+> 在运行例程前，需要关闭其他所有正在运行的节点。
 
-</td></tr></table>
+1. 安装gazebo/Install gazebo
 
-2. 安装gazebo/Install gazebo
-
-   ```
+   ```bash
    sudo apt install gazebo
    sudo apt install ros-humble-moveit*
    ```
@@ -163,9 +157,6 @@ ros2 run arm_moveit_write topic_publisher
 ```bash
 ros2 launch viola_gazebo viola_gazebo.launch.py
 ```
-> [!TIP]
->
-> 在关闭gazebo图形界面后，建议在终端使用**pkill -9 -f gazebo**命令彻底关闭   
 
 终端2:启动moveit2界面/Terminal 2:Launch the MoveIt2 interface
 
@@ -173,8 +164,7 @@ ros2 launch viola_gazebo viola_gazebo.launch.py
 ros2 launch viola_moveit_config gazebo_demo.launch.py
 ```
 
-
-## cello:
+## cello
 
 ### 激活机械臂&MoveIt2/Activate the robotic arm & MoveIt2
 
@@ -193,10 +183,6 @@ ros2 launch cello_moveit_config demo.launch.py
 ```bash
 ros2 launch cello_moveit_config driver.launch.py
 ```
-
-
-
-
 
 终端2:启动moveit2/Terminal 2:Starthe Moveit2
 
@@ -250,33 +236,30 @@ ros2 run arm_moveit_write topic_publisher
 ```
 
 ### MoveIt2-gazebo仿真机械臂例程/MoveIt2-Gazebo Simulation Robot Arm Example
-**注意事项**:
 
-1. 在运行例程前，需要关闭其他所有正在运行的节点。
+> [!TIP]
+> 在运行例程前，需要关闭其他所有正在运行的节点。
+> 在关闭gazebo图形界面后，建议在终端使用**pkill -9 -f gazebo**命令彻底关闭
 
-</td></tr></table>
+1. 安装gazebo/Install gazebo
 
-2. 安装gazebo/Install gazebo
-
-   ```
+   ```bash
    sudo apt install gazebo
    sudo apt install ros-humble-moveit*
    ```
 
 终端1:启动gazebo图形界面/Terminal 1: Launch the Gazebo graphical user interface
+
 ```bash
 ros2 launch cello_gazebo cello_gazebo.launch.py
 ```
-
-> [!TIP]
->
-> 在关闭gazebo图形界面后，建议在终端使用**pkill -9 -f gazebo**命令彻底关闭   
 
 终端2:启动moveit2界面/Terminal 2:Launch the MoveIt2 interface
 
 ```bash
 ros2 launch cello_moveit_config gazebo_demo.launch.py
 ```
+
 ## FAQ
 
 - 如果rivz2界面出现频闪，可以尝试以下指令/
