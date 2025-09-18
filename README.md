@@ -142,7 +142,7 @@ ros2 run arm_moveit_write topic_publisher
 
 > [!TIP]
 >
-> 在关闭gazebo图形界面后，建议在终端使用**pkill -9 -f gazebo**命令彻底关闭
+> 在关闭gazebo图形界面后，建议在终端使用 `pkill -9 -f gazebo` 命令彻底关闭
 > 在运行例程前，需要关闭其他所有正在运行的节点。
 
 1. 安装gazebo/Install gazebo
@@ -239,7 +239,7 @@ ros2 run arm_moveit_write topic_publisher
 
 > [!TIP]
 > 在运行例程前，需要关闭其他所有正在运行的节点。
-> 在关闭gazebo图形界面后，建议在终端使用**pkill -9 -f gazebo**命令彻底关闭
+> 在关闭gazebo图形界面后，建议在终端使用 `pkill -9 -f gazebo` 命令彻底关闭
 
 1. 安装gazebo/Install gazebo
 
