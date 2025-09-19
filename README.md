@@ -50,14 +50,14 @@ sudo pip install pyserial
 sudo pip install fashionstar-uart-sdk
 ```
 
-### 克隆starai-arm-moveit2功能包/Clone `starai-arm-moveit2` Ros2's Package
+### 克隆star-arm-moveit2功能包/Clone `star-arm-moveit2` Ros2's Package
 
 ```bash
 cd ~/
-git clone https://github.com/Welt-liu/starai-arm-moveit2.git
-cd ~/starai-arm-moveit2
+git clone https://github.com/Welt-liu/star-arm-moveit2.git
+cd ~/star-arm-moveit2
 colcon build
-echo "source ~/starai-arm-moveit2/install/setup.bash" >> ~/.bashrc
+echo "source ~/star-arm-moveit2/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
