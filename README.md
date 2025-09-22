@@ -50,14 +50,14 @@ sudo pip install pyserial
 sudo pip install fashionstar-uart-sdk
 ```
 
-### 克隆starai-arm-moveit2功能包/Clone `starai-arm-moveit2` Ros2's Package
+### 克隆star-arm-moveit2功能包/Clone `star-arm-moveit2` Ros2's Package
 
 ```bash
 cd ~/
-git clone https://github.com/Welt-liu/starai-arm-moveit2.git
-cd ~/starai-arm-moveit2
+git clone https://github.com/Welt-liu/star-arm-moveit2.git
+cd ~/star-arm-moveit2
 colcon build
-echo "source ~/starai-arm-moveit2/install/setup.bash" >> ~/.bashrc
+echo "source ~/star-arm-moveit2/install/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 ```
 
@@ -89,17 +89,17 @@ ros2 launch viola_moveit_config driver.launch.py
 ros2 launch viola_moveit_config actual_robot_demo.launch.py
 ```
 
-### 手臂末端位姿读写示例/End-effector pose read/write demo
+到此可实现虚拟机械臂控制真实机械臂的功能/At this point, you can control the real robotic arm with the virtual robotic arm.
+
+#### 手臂末端位姿读写示例/End-effector pose read/write demo
+
+终端3：启动末端位姿读写示例/Terminal 3: Start the end-effector pose read/write demo
 
 ```bash
 ros2 launch viola_moveit_config moveit_write_read.launch.py
 ```
 
 #### 位姿话题发送节点示例/Position and orientation topic sending node demo
-
-```bash
-ros2 run arm_moveit_write topic_publisher 
-```
 
 请更新文件/update here
 
@@ -131,6 +131,8 @@ src/arm_moveit_write/src/topic_publisher.cpp
     //}
 
 ```
+
+终端4：启动位姿话题发送节点/Terminal 4: Start the position and orientation topic sending node
 
 ```bash
 colcon build
@@ -190,7 +192,11 @@ ros2 launch cello_moveit_config driver.launch.py
 ros2 launch cello_moveit_config actual_robot_demo.launch.py
 ```
 
-### 手臂末端位姿读写示例/End-effector pose read/write demo
+到此可实现虚拟机械臂控制真实机械臂的功能/At this point, you can control the real robotic arm with the virtual robotic arm.
+
+#### 手臂末端位姿读写示例/End-effector pose read/write demo
+
+终端3：启动末端位姿读写示例/Terminal 3: Start the end-effector pose read/write demo
 
 ```bash
 ros2 launch cello_moveit_config moveit_write_read.launch.py
@@ -228,6 +234,8 @@ src/arm_moveit_write/src/topic_publisher.cpp
     }
 
 ```
+
+终端4：启动位姿话题发送节点/Terminal 4: Start the position and orientation topic sending node
 
 ```bash
 colcon build
