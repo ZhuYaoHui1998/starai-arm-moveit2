@@ -17,10 +17,13 @@ import serial
 
 ROBO_DRIVER_NODE = "robo_driver_node"  # 驱动节点名称 / driver node name
 ROBO_SET_ANGLE_SUBSCRIBER = "set_angle_topic"  # 设置角度话题 / topic for setting angles
+
+# PORT_NAME: 设置舵机串口号，默认使用/dev/ttyUSB0，当需要在同一个设备上使用多个机械臂时，需要修改该参数
+# Port name: Serial port for servos, default "/dev/ttyUSB0", change when using multiple arms
+# Whether to check servo angle on power-up, default True to ensure consistent init
 SERVO_PORT_NAME = "/dev/ttyUSB0"  # 舵机串口号 <<< 修改为实际串口号
                                 # Servo serial port <<< modify to actual port name
 SERVO_BAUDRATE = 1000000  # 舵机的波特率 / Servo communication baud rate
-ID = 0  # 多手臂时区分话题ID / ID to distinguish multiple arms in topics
 servo_ids = list()
 
 """
@@ -28,21 +31,8 @@ servo_ids = list()
 Universal class for servo-to-arm control
 """
 
-
-class writedata:
-    def __init__(self, command, servo_id=255, value=0):
-        if command == None:
-            return
-        WriteData_ = WriteData()
-        WriteData_.command = command
-        WriteData_.servo_id = servo_id
-        WriteData_.value = value
-        return WriteData_
-
-
 class uservo_ex:
-    ROBO_TYPE = "star"
-    ROBO_TYPE_JOINT = [
+    JOINT_ = [
         "joint1",
         "joint2",
         "joint3",
@@ -52,23 +42,14 @@ class uservo_ex:
         "joint7_left",
     ]
     ROBO_TYPE_INDEX_JOINT = {
-        value: index for index, value in enumerate(ROBO_TYPE_JOINT)
+        value: index for index, value in enumerate(JOINT_)
     }
     SRV_NUM =7
 
 
     # 参数 / Parameters:
-    # PORT_NAME: 设置舵机串口号，默认使用/dev/ttyUSB0，当需要在同一个设备上使用多个机械臂时，需要修改该参数
-    #            Port name: Serial port for servos, default "/dev/ttyUSB0", change when using multiple arms
-    #              Whether to check servo angle on power-up, default True to ensure consistent init
     def __init__(self,robo_type,log = None):
         self.ROBO_TYPE = robo_type
-        if self.ROBO_TYPE == self.ROBO_TYPE:
-            self.JOINT_ = self.ROBO_TYPE_JOINT
-            self.INDEX_JOINT_ = self.ROBO_TYPE_INDEX_JOINT
-        else:
-            self.JOINT_ = self.ROBO_TYPE_JOINT
-            self.INDEX_JOINT_ = self.ROBO_TYPE_INDEX_JOINT
         self.INDEX_JOINT_ = {value: index for index, value in enumerate(self.JOINT_)}
         self.log = log
         # 初始化串口 / Initialize serial port
@@ -156,7 +137,11 @@ class Arm_contorl(Node):
     def __init__(self):
         super().__init__(ROBO_DRIVER_NODE)
         self.declare_parameter("robo_type", "robo")
+
+        self.declare_parameter('lock', 'enable')
+
         self.robo_type = (self.get_parameter("robo_type").get_parameter_value().string_value)
+        self.lock = (self.get_parameter("lock").get_parameter_value().string_value)
 
         try:
             self.Servo = uservo_ex(self.robo_type,log = self.get_logger())
@@ -166,7 +151,8 @@ class Arm_contorl(Node):
         # self.target_angle 初始目标角度列表 / initial target angle list
         self.interval = [1500 for _ in range(self.Servo.SRV_NUM)]
         self.current_angle = [0.0 for _ in range(self.Servo.SRV_NUM)]
-        self.arm_move_by_time()
+        if(self.lock == "enable"):
+            self.arm_move_by_time()
 
         # 创建话题：发布joint_states / Create publisher for joint_states topic
         self.joint_states_publisher = self.create_publisher(
