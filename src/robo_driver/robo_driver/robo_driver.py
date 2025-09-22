@@ -96,7 +96,7 @@ class uservo_ex:
     #     return degrees
 
     # 将米转为角度 / Convert meters to degrees based on link length
-    @classmethod
+    # @classmethod
     # def meters_to_degrees(cls, meters):
     #     degrees = (meters / 0.032) * 100
     #     return degrees
@@ -121,20 +121,12 @@ class uservo_ex:
         elif servo_id == 6:
             return cls.degrees_to_meters(servo_angle-100)
 
-    # # 设置角度 / Send synchronous angle commands
-    # def set_angle(self, size, command_data_list):
-    #         self.uservo.send_sync_angle(size, command_data_list)
-
     # 设置角度（指定转速） / Send angle commands with specified speed
     def set_angle_by_interval(self, size, command_data_list):
         self.uservo.send_sync_multiturnanglebyinterval(
             self.uservo.CODE_SET_SERVO_ANGLE_MTURN_BY_INTERVAL,
             size, command_data_list
         )
-
-    # # 设置单舵机角度 / Set single servo angle
-    # def set_single_angle(self, servo_id, angle, velocity=30):       
-    #         self.uservo.set_servo_angle(servo_id, angle, velocity=velocity)
 
     # 查询角度 / Query current servo angle
     def query_servo_current_angle(self, servo_id):
@@ -144,27 +136,6 @@ class uservo_ex:
     # 失能舵机 / Disable servo torque
     def disable_torque(self, servo_id):
         self.servo_stop(servo_id)
-
-    # # 使能舵机 / Enable servo torque
-    # def enable_torque(self, servo_id):
-    #     current_angle = self.uservo.query_servo_angle(servo_id)
-    #     self.set_single_angle(servo_id, current_angle)
-
-    # # 查询一次温度 / Query servo temperature once
-    # def get_temperature(self, servo_id):
-    #     if servo_id in self.uservo.servos:
-    #         return self.uservo.query_temperature(servo_id)
-
-    # # 查询错误码 / Query error status code
-    # def get_error_code(self, servo_id):
-    #     if servo_id in self.uservo.servos:
-    #         code = self.uservo.query_status(servo_id)
-    #         return 0 if code <= 1 else code
-
-    # # 重设所有舵机多圈圈数 / Reset multi-turn count for all servos
-    # def reset_all_servo_multi_turn_angle(self):
-    #     for i in self.uservo.servos:
-    #         self.reset_multi_turn_angle(i)
 
     # 重设指定舵机多圈圈数 / Reset multi-turn count for a single servo
     def reset_multi_turn_angle(self, servo_id):
@@ -179,38 +150,6 @@ class uservo_ex:
     # 停止并释放锁力 / Stop servo and release torque lock
     def servo_stop(self, servo_id, mode=2, power=500):
         self.uservo.stop_on_control_mode(servo_id, mode, power)
-
-    # # 停止所有舵机 / Stop all servos
-    # def servo_all_stop(self, mode=2, power=200):
-    #     for id in range(self.SRV_NUM):
-    #         self.servo_stop(id, mode, power)
-    #         time.sleep(0.05)
-
-    # # 舵机停止释放锁力 / Stop single servo release lock
-    # def servo_stop_lock(self, servo_id):
-    #     self.uservo.stop_on_control_mode(servo_id, 0, 500)
-
-    # # 舵机保持锁力 / Keep servo torque lock
-    # def servo_keep_lock(self, servo_id):
-    #     self.uservo.stop_on_control_mode(servo_id, 1, 50000)
-
-    # 舵机设置原点 / Set servo origin point
-    def servo_set_origin_point(self, servo_id):
-        self.uservo.set_origin_point(servo_id)
-
-    # # 发送0°角度命令 / Send zero-degree angle command
-    # def servo_set_zero_angle(self, servo_id, angle, interval, power):
-    #     self.uservo.set_servo_angle(servo_id, angle, interval, power)
-
-    # # 读取内存表数据 / Read from servo memory table
-    # def servo_read_data(self, servo_id, address):
-    #     self.uservo.read_data(servo_id, address)
-
-    # # 写入内存表数据 / Write to servo memory table
-    # def servo_write_data(self, servo_id, address, content):
-    #     self.uservo.write_data(servo_id, address, content)
-
-
 
 class Arm_contorl(Node):
 
