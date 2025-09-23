@@ -17,8 +17,11 @@ ros2 run leaderfollower_armpair loop_demo --ros-args -p PORT_NAME:='/dev/ttyUSB0
 ros2 run leaderfollower_armpair loop_demo --ros-args -p PORT_NAME:='/dev/ttyUSB1'
 <!-- ros2 bag play /home/nyancos/robo/move_blue_block --loop -->
 
-ros2 bag play /home/nyancos/robo/FsRobo-A1/bag/my_bag --loop
 
 ros2 run leaderfollower_armpair leader_demo --ros-args -p leader:='/dev/ttyUSB0'
 
+////////9 23
 
+ros2 run robo_driver driver --ros-args -p lock:='enable'
+ros2 run ros2_bag_recorder bag_recorder 
+ros2 bag play /home/nyancos/robo/FsRobo-A1/bag/my_bag --loop

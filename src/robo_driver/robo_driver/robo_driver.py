@@ -153,6 +153,8 @@ class Arm_contorl(Node):
         self.current_angle = [0.0 for _ in range(self.Servo.SRV_NUM)]
         if(self.lock == "enable"):
             self.arm_move_by_time()
+        else:
+            self.Servo.disable_torque(0xff)
 
         # 创建话题：发布joint_states / Create publisher for joint_states topic
         self.joint_states_publisher = self.create_publisher(
