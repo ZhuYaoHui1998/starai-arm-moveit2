@@ -168,6 +168,9 @@ ros2 launch viola_moveit_config gazebo_demo.launch.py
 
 ### 机械臂示教模式/Teaching Mode for the Robotic Arm
 
+> [!TIP]
+> 需要重新录制轨迹，请将bag文件夹删除/You need to record a new trajectory, please delete the bag folder.
+
 终端1:启动手臂硬件驱动(示教模式)/Terminal 1: Start the arm hardware driver (teaching mode)
 
 ```bash
@@ -291,6 +294,9 @@ ros2 launch cello_moveit_config gazebo_demo.launch.py
 ```
 
 ### 机械臂示教模式/Teaching Mode for the Robotic Arm
+
+> [!TIP]
+> 需要重新录制轨迹，请将bag文件夹删除/You need to record a new trajectory, please delete the bag folder.
 
 终端1:启动手臂硬件驱动(示教模式)/Terminal 1: Start the arm hardware driver (teaching mode)
 
