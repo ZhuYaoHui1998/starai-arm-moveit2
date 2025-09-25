@@ -45,8 +45,13 @@ public:
           {
             auto id = std::find(joint_name.begin(), joint_name.end(), msg.name[i]) - joint_name.begin();
             custom_msg->servo_id.push_back(id);
-            custom_msg->target_angle.push_back(jointstate2servoangle(id, msg.position[i]));
+            auto angle = jointstate2servoangle(id, msg.position[i]);
             custom_msg->time.push_back(200);
+            if (id ==6)
+            {
+              angle -=10;
+            }
+            custom_msg->target_angle.push_back(angle);
           }
 
           // 3. 记录自定义消息到bag
