@@ -13,8 +13,8 @@
   <depend>rosbag2_cpp</depend>
   <depend>sensor_msgs</depend>
   <depend>geometry_msgs</depend>
-
-
+  <depend>robo_interfaces</depend>
+  
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
 

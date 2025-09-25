@@ -11,6 +11,7 @@ find_package(rclcpp REQUIRED)
 find_package(rosbag2_cpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(robo_interfaces REQUIRED)
 add_executable(bag_recorder src/bag_recorder.cpp)
 
 ament_target_dependencies(bag_recorder 
@@ -21,6 +22,7 @@ ament_target_dependencies(bag_recorder
   rosidl_typesupport_cpp  # 添加这个关键依赖
   rosidl_default_runtime  # 添加运行时支持
   rosidl_runtime_cpp  # 新增关键依赖
+  robo_interfaces
 )
 
 install(TARGETS bag_recorder
