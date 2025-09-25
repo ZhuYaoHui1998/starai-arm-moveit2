@@ -166,6 +166,28 @@ ros2 launch viola_gazebo viola_gazebo.launch.py
 ros2 launch viola_moveit_config gazebo_demo.launch.py
 ```
 
+### 机械臂示教模式/Teaching Mode for the Robotic Arm
+
+终端1:启动手臂硬件驱动(示教模式)/Terminal 1: Start the arm hardware driver (teaching mode)
+
+```bash
+ros2 run robo_driver driver --ros-args -p lock:='disable'
+```
+
+终端2:记录手臂轨迹/Terminal 2: Record arm trajectory
+
+运行即开始录制，ctrl+c则结束录制/Run to start recording, press ctrl+c to end recording.
+
+```bash
+ros2 run ros2_bag_recorder bag_recorder
+```
+
+终端3:重播运行轨迹/Terminal 3: Replay the recorded trajectory
+
+```bash
+ros2 bag play ./bag/my_bag
+```
+
 ## cello
 
 ### 激活机械臂&MoveIt2/Activate the robotic arm & MoveIt2
@@ -266,6 +288,28 @@ ros2 launch cello_gazebo cello_gazebo.launch.py
 
 ```bash
 ros2 launch cello_moveit_config gazebo_demo.launch.py
+```
+
+### 机械臂示教模式/Teaching Mode for the Robotic Arm
+
+终端1:启动手臂硬件驱动(示教模式)/Terminal 1: Start the arm hardware driver (teaching mode)
+
+```bash
+ros2 run robo_driver driver --ros-args -p lock:='disable'
+```
+
+终端2:记录手臂轨迹/Terminal 2: Record arm trajectory
+
+运行即开始录制，ctrl+c则结束录制/Run to start recording, press ctrl+c to end recording.
+
+```bash
+ros2 run ros2_bag_recorder bag_recorder
+```
+
+终端3:重播运行轨迹/Terminal 3: Replay the recorded trajectory
+
+```bash
+ros2 bag play ./bag/my_bag
 ```
 
 ## FAQ
