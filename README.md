@@ -179,16 +179,16 @@ ros2 run robo_driver driver --ros-args -p lock:='disable'
 
 终端2:记录手臂轨迹/Terminal 2: Record arm trajectory
 
-运行即开始录制，ctrl+c则结束录制/Run to start recording, press ctrl+c to end recording.
+按下回车开始录制，再按下回车结束录制，通过dataset参数指定保存路径/Press Enter to start recording, press Enter to end recording, and specify the save path through the dataset parameter.
 
 ```bash
-ros2 run ros2_bag_recorder bag_recorder
+ros2 run ros2_bag_recorder bag_recorder --ros-args -p dataset:=star/record-test
 ```
 
 终端3:重播运行轨迹/Terminal 3: Replay the recorded trajectory
 
 ```bash
-ros2 bag play ./bag/my_bag
+ros2 bag play ./star/record-test
 ```
 
 ## cello
@@ -306,16 +306,16 @@ ros2 run robo_driver driver --ros-args -p lock:='disable'
 
 终端2:记录手臂轨迹/Terminal 2: Record arm trajectory
 
-运行即开始录制，ctrl+c则结束录制/Run to start recording, press ctrl+c to end recording.
+按下回车开始录制，再按下回车结束录制，通过dataset参数指定保存路径/Press Enter to start recording, press Enter to end recording, and specify the save path through the dataset parameter.
 
 ```bash
-ros2 run ros2_bag_recorder bag_recorder
+ros2 run ros2_bag_recorder bag_recorder --ros-args -p dataset:=star/record-test
 ```
 
 终端3:重播运行轨迹/Terminal 3: Replay the recorded trajectory
 
 ```bash
-ros2 bag play ./bag/my_bag
+ros2 bag play ./star/record-test
 ```
 
 ## FAQ
