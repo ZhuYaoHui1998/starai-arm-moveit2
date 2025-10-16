@@ -32,25 +32,6 @@ ROBO_TYPE_1_JOINT_ = [
 ROBO_TYPE_1_INDEX_JOINT_ = {name: idx for idx, name in enumerate(ROBO_TYPE_1_JOINT_)}
 
 
-class PID:
-    """PID 控制器 / PID controller"""
-    def __init__(self, Kp, Ki, Kd, setpoint=0):
-        self.Kp = Kp  # 比例系数 / proportional gain
-        self.Ki = Ki  # 积分系数 / integral gain
-        self.Kd = Kd  # 微分系数 / derivative gain
-        self.setpoint = setpoint  # 目标值 / desired setpoint
-        self.previous_error = 0  # 上一次误差 / last error
-        self.integral = 0  # 积分累积 / integral term
-
-    def update(self, measured_value, dt):
-        """计算 PID 输出 / compute PID output"""
-        error = self.setpoint - measured_value  # 当前误差 / current error
-        self.integral += error * dt  # 积分项 / integrate error
-        derivative = (error - self.previous_error) / dt  # 微分项 / derivative term
-        output = self.Kp * error + self.Ki * self.integral + self.Kd * derivative  # PID公式 / PID formula
-        self.previous_error = error  # 更新历史误差 / update last error
-        return output
-
 
 def radians_to_degrees(radians):
     """弧度转角度 / convert radians to degrees"""

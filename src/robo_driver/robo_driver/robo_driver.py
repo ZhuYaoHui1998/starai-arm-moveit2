@@ -70,18 +70,6 @@ class uservo_ex:
         self.reset_multi_turn_angle(0xff)
         time.sleep(0.1)
 
-    # 将弧度转为角度 / Convert radians to degrees
-    # @classmethod
-    # def radians_to_degrees(cls, radians):
-    #     degrees = radians * (180 / math.pi)
-    #     return degrees
-
-    # 将米转为角度 / Convert meters to degrees based on link length
-    # @classmethod
-    # def meters_to_degrees(cls, meters):
-    #     degrees = (meters / 0.032) * 100
-    #     return degrees
-
     # 将角度转为弧度 / Convert degrees to radians
     @classmethod
     def degrees_to_radians(cls, degrees):
@@ -123,10 +111,6 @@ class uservo_ex:
         self.uservo.disable_torque(servo_id)
         time.sleep(0.05)
         self.uservo.reset_multi_turn_angle(servo_id)
-
-    # 返回舵机数量 / Return number of servos
-    def servo_num(self):
-        return self.SRV_NUM or 0
 
     # 停止并释放锁力 / Stop servo and release torque lock
     def servo_stop(self, servo_id, mode=2, power=500):
@@ -209,7 +193,7 @@ class Arm_contorl(Node):
         acc = [0.0 for _ in range(self.Servo.SRV_NUM)]
         for i in range(self.Servo.SRV_NUM):
             acc[i] = int(self.interval[i]/2)
-        command_data_list = [struct.pack("<BlLHHH", i, self.target_angle[i], self.interval[i], acc[i], acc[i], 0) for i in range(self.Servo.SRV_NUM)]
+        command_data_list = [struct.pack("<BlLHHH", i, self.target_angle[i], self.interval[i], acc[i], acc[i], 8000) for i in range(self.Servo.SRV_NUM)]
         self.Servo.set_angle_by_interval(self.Servo.SRV_NUM, command_data_list)
 
 
