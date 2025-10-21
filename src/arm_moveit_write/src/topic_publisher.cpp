@@ -20,16 +20,17 @@ public:
 
     // viola
     // dataset1_ = {
-    //   {0.003, -0.204, 0.274},       // position
-    //   {0.014, 0.717, 0.017, 0.696}, // orientation
+    //   {0.35, -0.00, 0.23},       // position
+    //   {-0.499, 0.500, -0.500, 0.500}, // orientation
     //   "open"                         // gripper_state
     // };
     // dataset2_ = {
-    //   {-0.00, -0.34, 0.177},        // position
-    //   {0.0, 0.7071, 0.0, 0.7071},   // orientation
+    //   {0.15, -0.00, 0.299},        // position
+    //   {0.500, -0.500, 0.500, -0.499},   // orientation
     //   "close"                        // gripper_state
     // };
 
+    //cello
     dataset1_ = {
       {0.278, 0.000, 0.438},       // position
       {-0.506, 0.507, -0.496, 0.491}, // orientation
