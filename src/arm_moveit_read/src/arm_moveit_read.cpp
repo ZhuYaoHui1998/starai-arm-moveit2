@@ -117,12 +117,12 @@ int main(int argc, char * argv[])
     publisher->publish(message);
 
     // 打印合并的日志信息
-    RCLCPP_INFO(global_node->get_logger(),
-                "position = x:%.3f, y:%.3f, z:%.3f / orientation = x:%.3f, y:%.3f, z:%.3f, w:%.3f / Joint7_left: %.2f radians (%.2f degrees) - Gripper: %s",
-                get_pose.pose.position.x, get_pose.pose.position.y, get_pose.pose.position.z,
-                get_pose.pose.orientation.x, get_pose.pose.orientation.y,
-                get_pose.pose.orientation.z, get_pose.pose.orientation.w,
-                g_joint7_left_radians, g_joint7_left_degrees, g_gripper_state.c_str());
+    // RCLCPP_INFO(global_node->get_logger(),
+    //             "position = x:%.3f, y:%.3f, z:%.3f / orientation = x:%.3f, y:%.3f, z:%.3f, w:%.3f / Joint7_left: %.2f radians (%.2f degrees) - Gripper: %s",
+    //             get_pose.pose.position.x, get_pose.pose.position.y, get_pose.pose.position.z,
+    //             get_pose.pose.orientation.x, get_pose.pose.orientation.y,
+    //             get_pose.pose.orientation.z, get_pose.pose.orientation.w,
+    //             g_joint7_left_radians, g_joint7_left_degrees, g_gripper_state.c_str());
     
     // 按照设定的频率休眠
     rate.sleep();
