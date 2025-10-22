@@ -36,6 +36,15 @@ public:
     
     // 输出启动信息
     RCLCPP_INFO(logger_, "ARMMoveItControl node started, waiting for position and orientation messages...");
+
+    // 注册关闭回调，确保停止当前运动并清理目标
+    rclcpp::on_shutdown([this]() {
+      if (move_group_interface_) {
+        move_group_interface_->stop();
+        move_group_interface_->clearPoseTargets();
+      }
+      RCLCPP_INFO(logger_, "on_shutdown: stopped motion and cleared pose targets");
+    });
     
     // 初始化MoveGroupInterface
     move_group_interface_ = std::make_shared<MoveGroupInterface>(
@@ -46,7 +55,7 @@ public:
     move_group_interface_->setMaxVelocityScalingFactor(1);
     move_group_interface_->setMaxAccelerationScalingFactor(0);
     // move_group_interface_->setGoalTolerance(0.001);             // 位置容差
-    move_group_interface_->setGoalOrientationTolerance(0.005);  // 方向容差
+    // move_group_interface_->setGoalOrientationTolerance(0.005);  // 方向容差
     move_group_interface_->allowReplanning(true);              // 允许重规划
     move_group_interface_->setNumPlanningAttempts(10);        // 增加尝试次数
     
@@ -60,60 +69,43 @@ public:
     last_orientation_w_ = 0.0;
   }
 
+  ~ArmMoveitControl() {
+    if (move_group_interface_) {
+      move_group_interface_->stop();
+      move_group_interface_->clearPoseTargets();
+    }
+    RCLCPP_INFO(logger_, "ArmMoveitControl shutting down, stop and clear targets.");
+  }
+
 private:
   std::mutex mutex_;
   void topic_callback(const robo_interfaces::msg::PositionOrientation::SharedPtr msg)
   {
-    // 检查是否与上一次的位置和方向相同
-    const double position_tolerance = 0.001;  // 位置容差
-    const double orientation_tolerance = 0.001;  // 方向容差
-    
-    bool is_same_position = 
-      std::abs(msg->position_x - last_position_x_) < position_tolerance &&
-      std::abs(msg->position_y - last_position_y_) < position_tolerance &&
-      std::abs(msg->position_z - last_position_z_) < position_tolerance;
-    
-    bool is_same_orientation = 
-      std::abs(msg->orientation_x - last_orientation_x_) < orientation_tolerance &&
-      std::abs(msg->orientation_y - last_orientation_y_) < orientation_tolerance &&
-      std::abs(msg->orientation_z - last_orientation_z_) < orientation_tolerance &&
-      std::abs(msg->orientation_w - last_orientation_w_) < orientation_tolerance;
-    
-    // 如果是第一条消息或者位置/方向发生了变化，则执行移动
-    if (is_first_message_ || !(is_same_position && is_same_orientation)) {      
-      // 创建目标姿态
-      geometry_msgs::msg::Pose target_pose;
-      target_pose.position.x = msg->position_x;
-      target_pose.position.y = msg->position_y;
-      target_pose.position.z = msg->position_z;
-      target_pose.orientation.x = msg->orientation_x;
-      target_pose.orientation.y = msg->orientation_y;
-      target_pose.orientation.z = msg->orientation_z;
-      target_pose.orientation.w = msg->orientation_w;
-      
-      // 设置目标姿态
-      move_group_interface_->setPoseTarget(target_pose);
-      
-      // 生成运动规划
-      moveit::planning_interface::MoveGroupInterface::Plan plan;
-      bool success = static_cast<bool>(move_group_interface_->plan(plan));
-      
-      // 执行规划
-      if(success) {
-        move_group_interface_->execute(plan);
-        move_group_interface_->clearPoseTargets();  // 清除目标姿态，确保下次规划可以重新开始
-      } else {
-        RCLCPP_ERROR(logger_, "Planning failed!");
-      }
-      
-      // 如果是第一条消息，直接跳过后续检查
-      if (is_first_message_) {
-        is_first_message_ = false;
-        return;
-      }
+    // 每次收到姿态消息都执行规划与运动，避免因与上次相同而被过滤
+    geometry_msgs::msg::Pose target_pose;
+    target_pose.position.x = msg->position_x;
+    target_pose.position.y = msg->position_y;
+    target_pose.position.z = msg->position_z;
+    target_pose.orientation.x = msg->orientation_x;
+    target_pose.orientation.y = msg->orientation_y;
+    target_pose.orientation.z = msg->orientation_z;
+    target_pose.orientation.w = msg->orientation_w;
+
+    // 与当前机器人状态同步，避免上次执行后内部起始状态不同步导致规划失败
+    move_group_interface_->setStartStateToCurrentState();
+    move_group_interface_->setPoseTarget(target_pose);
+
+    moveit::planning_interface::MoveGroupInterface::Plan plan;
+    bool success = static_cast<bool>(move_group_interface_->plan(plan));
+
+    if (success) {
+      move_group_interface_->execute(plan);
+      move_group_interface_->clearPoseTargets();
+    } else {
+      RCLCPP_ERROR(logger_, "Planning failed!");
     }
-    
-    // 更新上一次的位置和方向
+
+    // 更新上一次的位置和方向（用于日志/诊断）
     last_position_x_ = msg->position_x;
     last_position_y_ = msg->position_y;
     last_position_z_ = msg->position_z;
@@ -122,9 +114,8 @@ private:
     last_orientation_z_ = msg->orientation_z;
     last_orientation_w_ = msg->orientation_w;
 
-    RCLCPP_INFO(logger_, "Position: x=%f, y=%f, z=%f | Orientation: x=%f, y=%f, z=%f, w=%f", 
+    RCLCPP_INFO(logger_, "Position: x=%f, y=%f, z=%f | Orientation: x=%f, y=%f, z=%f, w=%f",
                 msg->position_x, msg->position_y, msg->position_z, msg->orientation_x, msg->orientation_y, msg->orientation_z, msg->orientation_w);
-
   }
 
   // 控制夹爪函数
