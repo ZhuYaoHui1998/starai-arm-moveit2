@@ -50,14 +50,14 @@ public:
     move_group_interface_ = std::make_shared<MoveGroupInterface>(
       std::shared_ptr<rclcpp::Node>(this, [](auto) {}), "arm");
     
-    // 设置运动规划参数
-    move_group_interface_->setPlanningTime(5.0);               // 设置为 10 秒
-    move_group_interface_->setMaxVelocityScalingFactor(1);
-    move_group_interface_->setMaxAccelerationScalingFactor(0);
-    // move_group_interface_->setGoalTolerance(0.001);             // 位置容差
-    // move_group_interface_->setGoalOrientationTolerance(0.005);  // 方向容差
+    // 设置运动规划参数（更稳健的默认值）
+    move_group_interface_->setPlanningTime(5.0);              // 规划超时时间 5s
+    move_group_interface_->setMaxVelocityScalingFactor(1);   // 速度缩放 0.2，提升可达性
+    move_group_interface_->setMaxAccelerationScalingFactor(0); // 加速度缩放 0.2
+    // move_group_interface_->setGoalTolerance(0.001);            // 位置容差 1mm
+    // move_group_interface_->setGoalOrientationTolerance(0.005);  // 姿态容差 ~0.57度
     move_group_interface_->allowReplanning(true);              // 允许重规划
-    move_group_interface_->setNumPlanningAttempts(10);        // 增加尝试次数
+    move_group_interface_->setNumPlanningAttempts(10);         // 增加尝试次数
     
     // 初始化上一次的位置和方向
     last_position_x_ = 0.0;
@@ -90,6 +90,27 @@ private:
     target_pose.orientation.y = msg->orientation_y;
     target_pose.orientation.z = msg->orientation_z;
     target_pose.orientation.w = msg->orientation_w;
+
+    // 归一化四元数，避免因非单位四元数导致 IK/规划失败
+    {
+      const double nx = target_pose.orientation.x;
+      const double ny = target_pose.orientation.y;
+      const double nz = target_pose.orientation.z;
+      const double nw = target_pose.orientation.w;
+      const double n = std::sqrt(nx*nx + ny*ny + nz*nz + nw*nw);
+      if (n > 1e-6) {
+        target_pose.orientation.x = nx / n;
+        target_pose.orientation.y = ny / n;
+        target_pose.orientation.z = nz / n;
+        target_pose.orientation.w = nw / n;
+      } else {
+        // 极端情况下回退为单位四元数
+        target_pose.orientation.x = 0.0;
+        target_pose.orientation.y = 0.0;
+        target_pose.orientation.z = 0.0;
+        target_pose.orientation.w = 1.0;
+      }
+    }
 
     // 与当前机器人状态同步，避免上次执行后内部起始状态不同步导致规划失败
     move_group_interface_->setStartStateToCurrentState();
